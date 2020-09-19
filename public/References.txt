@@ -1,0 +1,10 @@
+COULEURS:
+
+Gris clair: Periwinkle Gray
+#D5E1EF
+
+bleu clair: Malibu
+#5CADFA
+
+vert foncé: Killarney
+#325A40
