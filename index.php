@@ -23,25 +23,22 @@
     <header>
         <nav class="container-fluid">
             <div class="container">
-                <ul>
-                    <li><a href=""><i class="fas fa-home"></i></a></li>
-                    <li><a href=""><i class="far fa-calendar-alt"></i></a></li>
-                    <li><a href=""><i class="fas fa-images"></i></a></li>
-                    <li><a href=""><i class="fas fa-user-circle"></i></li></a>
+                <ul class="row">
+                    <li class="col"><a href=""><i class="fas fa-home"></i></a></li>
+                    <li class="col"><a href=""><i class="far fa-calendar-alt"></i></a></li>
+                    <li class="col"><a href=""><i class="fas fa-images"></i></a></li>
+                    <li class="col"><a href=""><i class="fas fa-user-circle"></i></li></a>
                 </ul>
             </div>
-
         </nav>
     </header>
 
     <!-- Corps de page  -->
     <section class="container-fluid">
-
-        <!-- contenu changeant de la page -->
         <div class="container">
-            <div class="content">
+            <div class="row">
                 <!-- menu de navigation secondaire contextuel -->
-                <nav class="second-nav">
+                <nav class="col-4">
                     <ul>
                         <li><button>Créé un évenement</button></li>
                         <li><button>Evenements disponibles</button></li>
@@ -50,19 +47,18 @@
                     </ul>
                 </nav>
 
-                <div class="main-object">
+                <div class="col-8">
                     <h1>Mon agenda</h1>
                     <div id="calendar"></div>
                 </div>
             </div>
         </div>
-
     </section>
 
     <!-- footer -->
     <footer>
-        <div class="wrapper">
-            <p>Site dans le cadre d'un projet scolaire, tout les droits d'image ou de texte ne m'appartiennent pas</p>
+        <div class="container">
+            <p class="row">Site dans le cadre d'un projet scolaire, tout les droits d'image ou de texte ne m'appartiennent pas</p>
         </div>
     </footer>
 
