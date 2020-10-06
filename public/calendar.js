@@ -1,12 +1,28 @@
-document.addEventListener('DOMContentLoaded', function () {
+class Calendar {
 
-    var calendarEl = document.getElementById('calendar');
+    constructor() {
+        this.calendarEl = document.getElementById('calendar');
+        this.calendar = new FullCalendar.Calendar(this.calendarEl, {
+            locale: 'fr',
+            themeSystem: 'bootstrap',
+            initialView: 'dayGridMonth',
+            schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,dayGridWeek,listMonth'
+            },
+            buttonText: {
+                today: 'Aujourd\'hui',
+                month: 'Mois',
+                week: 'Semaine',
+                day: 'Jour',
+                list: 'Liste'
+            }
+        });
+    }
 
-    var calendar = new FullCalendar.Calendar(calendarEl, {
-
-        initialView: 'dayGridMonth',
-        schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives'
-
-    });
-    calendar.render();
-});
+    makeCalendar() {
+        this.calendar.render();
+    }
+}
