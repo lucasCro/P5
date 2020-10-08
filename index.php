@@ -1,7 +1,10 @@
 <?php
+
+require_once('controllers/mainController.php');
+
 function checkPassword() {
     $password = true;
-    if ($password == true) {
+    if ($password == false) {
         return true;
     } else {
         return false;
