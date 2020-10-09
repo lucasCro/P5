@@ -2,11 +2,17 @@
 // Demarrage de session_start pour utiliser les variable de sessions
 session_start();
 
-require_once('models/connexionManager.php');
-require_once('models/MembersManager.php');
-
 class Controller 
 {
+    private $prefixe = "impossible";
+    private $suffixe = "craquer";
+
+    function __construct()
+    {
+        require_once('models/connexionManager.php');
+        require_once('models/MembersManager.php');
+    }
+    
     // Fonction privé pour verifié les logs d'un utilisateur
     private function checkLog($mail, $password)
     {
@@ -41,6 +47,12 @@ class Controller
 
     public function profilView()
     {
+        require_once('view/profil.php');
+        require_once('view/template.php');
+    }
+
+    public function adminView()
+    {
         require_once('view/administrateur.php');
         require_once('view/template.php');
     }
@@ -52,21 +64,36 @@ class Controller
         {
             // Securisation pour eviter la faille XSS
             $mail = strip_tags($_POST['mail']);
-            $password = strip_tags($_POST['password']);
+            $password = md5($this->prefixe . strip_tags($_POST['password']) . $this->suffixe);
 
             // Verification des logs
-            if ($this->checkLog($$mail, $password))
+            if ($this->checkLog($mail, $password))
             {
                 // Si utilisateur valide :
                 // Recuperation de ses infos en base de données
                 $member = new MembersManager();
-                $member->infosMember($mail);
+                $infosMember = $member->infosMember($mail);
+                while ($data = $infosMember->fetch())
+                {
+                    $_SESSION['pseudo'] = $data['pseudo'];
+                    $_SESSION['prenom'] = $data['prenom'];
+                    $_SESSION['nom'] = $data['nom'];
+                    $_SESSION['mail'] = $data['mail'];
+                    if ($data['admin'] == 1) 
+                    {
+                        $_SESSION['statut'] = "Administrateur";
+                    }
+                    else
+                    {
+                        $_SESSION['statut'] = "Utilisateur";
+                    }
+                }
                 $this->homeView();
             }
             // Sinon:
             else
             {
-                $alert = "mot de passe et/ou pseudo invalide !";
+                $alert = "mot de passe et/ou adresse mail invalide !";
                 require_once('view/authentification.php');
                 require_once('view/template.php');
             }
@@ -84,8 +111,8 @@ class Controller
         {
             // Securisation pour eviter la faille XSS
             $pseudo = strip_tags($_POST['newPseudo']);
-            $password = strip_tags($_POST['newPassword']);
-            $pwdConfirmation = strip_tags($_POST['passwordConfirmation']);
+            $password = md5($this->prefixe . strip_tags($_POST['newPassword']) . $this->suffixe); // encryptage en md5 et ajout d'un prefixe et suffixe pour securiser le mdp
+            $pwdConfirmation = md5($this->prefixe . strip_tags($_POST['passwordConfirmation']) . $this->suffixe);
             $nom = strip_tags($_POST['nom']);
             $prenom = strip_tags($_POST['prenom']);
             $mail = strip_tags($_POST['mail']);
@@ -100,7 +127,8 @@ class Controller
                 $_SESSION['nom'] = $nom;
                 $_SESSION['mail'] = $mail;
                 $alert = 'Bienvenue '.$pseudo.', ton profil a bien été créé !';
-                $this->homeView();
+                require_once('view/accueil.php');
+                require_once('view/template.php');
             }
             else
             {
@@ -108,6 +136,22 @@ class Controller
                 require_once('view/authentification.php');
                 require_once('view/template.php');
             }
+        }
+        // Actions si le formulaire d'INSCRIPTION est n'est pas ENTIEREMENT rempli
+        elseif (
+            isset($_POST['inscription']) &&
+            // Verification de la presence non null des variables
+            (isset($_POST['newPseudo']) && $_POST['newPseudo'] != null) ||
+            (isset($_POST['newPassword']) && $_POST['newPassword'] != null) ||
+            (isset($_POST['passwordConfirmation']) && $_POST['passwordConfirmation'] != null) ||
+            (isset($_POST['nom']) && $_POST['nom'] != null) ||
+            (isset($_POST['prenom']) && $_POST['prenom'] != null) ||
+            (isset($_POST['mail']) && $_POST['mail'] != null)
+        ) 
+        {
+            $alert = "Vous n'avez pas remplis tout les champs !";
+            require_once('view/authentification.php');
+            require_once('view/template.php');
         }
         // Action si la page est demandé sans envoie de formulaire
         else 

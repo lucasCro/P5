@@ -15,6 +15,7 @@
                             <li class="nav-item"><a class="nav-link" href="index.php?page=calendar"><i class="far fa-calendar-alt"></i></a></li>
                             <li class="nav-item"><a class="nav-link" href="index.php?page=picture"><i class="fas fa-images"></i></a></li>
                             <li class="nav-item"><a class="nav-link" href="index.php?page=profil"><i class="fas fa-user-circle"></i></a></li>
+                            <li class="nav-item"><a class="nav-link" href="index.php?page=admin"><i class="fas fa-user-lock"></i></i></a></li>
                         </ul>
                     </div>
                 </nav>

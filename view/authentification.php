@@ -17,7 +17,7 @@ ob_start();
                     <form method="POST">
                         <div class="form-group">
                             <h2 class="mb-3">Authentification</h2>
-                            <input type=" text" name="mail" class="form-control mb-1" placeholder="Entrez votre mail">
+                            <input type=" mail" name="mail" class="form-control mb-1" placeholder="Entrez votre mail">
                             <input type="password" name="password" class="form-control mb-1" placeholder="Entrez votre mot de passe">
                             <input type="hidden" name="authentification">
                             <button type="submit" class="btn btn-primary mt-1">Envoyer</button>

@@ -21,6 +21,10 @@ if (isset($_GET['page']))
             $controller->profilView();
             break;
 
+        case "admin":
+            $controller->adminView();
+            break;
+            
         case "home":
             $controller->homeView();
             break;
