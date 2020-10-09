@@ -11,14 +11,15 @@ ob_start();
     <img src="public/images/slider.jpg" class="img-fluid" alt="photo d'une montagne">
     <div class="container-fluid" id="authentificationContent">
         <div class="container">
-            <div class="row justify-content-around">
+            <div class="row justify-content-around align-items-center">
                 <!-- formulaire d'authentification -->
-                <div class="col-4 bg-light p-5 rounded">
+                <div class="col-4 bg-light p-5 rounded align-items-end">
                     <form method="POST">
                         <div class="form-group">
-                            <h2>Authentification</h2>
-                            <input type="text" class="form-control" placeholder="Entrez votre pseudo">
-                            <input type="password" class="form-control" placeholder="Entrez votre mot de passe">
+                            <h2 class="mb-3">Authentification</h2>
+                            <input type=" text" name="mail" class="form-control mb-1" placeholder="Entrez votre mail">
+                            <input type="password" name="password" class="form-control mb-1" placeholder="Entrez votre mot de passe">
+                            <input type="hidden" name="authentification">
                             <button type="submit" class="btn btn-primary mt-1">Envoyer</button>
                         </div>
                     </form>
@@ -27,9 +28,14 @@ ob_start();
                 <div class="col-4 bg-light p-5 rounded">
                     <form method="POST">
                         <div class="form-group">
-                            <h2>Pas encore inscrit ?</h2>
-                            <input type="text" class="form-control" placeholder="Entrez votre pseudo">
-                            <input type="password" class="form-control" placeholder="Entrez votre mot de passe">
+                            <h2 class="mb-3">Pas encore inscrit ?</h2>
+                            <input type=" text" name="newPseudo" class="form-control mb-1" placeholder="Entrez votre pseudo">
+                            <input type="text" name="prenom" class="form-control mb-1" placeholder="Entrez votre prénom">
+                            <input type="text" name="nom" class="form-control mb-1" placeholder="Entrez votre nom">
+                            <input type="mail" name="mail" class="form-control mb-1" placeholder="Entrez votre adresse mail">
+                            <input type="password" name="newPassword" class="form-control mb-1" placeholder="Entrez votre mot de passe">
+                            <input type="password" name="passwordConfirmation" class="form-control mb-1" placeholder="Confirmez votre mot de passe">
+                            <input type="hidden" name="inscription">
                             <button type="submit" class="btn btn-primary mt-1">Envoyer</button>
                         </div>
                     </form>

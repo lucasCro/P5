@@ -5,7 +5,7 @@
             <div class="row">
                 <!-- nav bar en responsive -->
                 <nav class="col navbar navbar-dark navbar-expand-lg">
-                    <a class="navbar-brand" href="index.html">TriB(ao)us</a>
+                    <a class="navbar-brand" href="index.php">TriB(ao)us</a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent">
                         <span class="navbar-toggler-icon"></span>
                     </button>

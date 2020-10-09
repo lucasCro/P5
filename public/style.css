@@ -2,25 +2,40 @@ body {
     padding-top: 56px;
 }
 
+/* Message Alert */
+#alertMessage 
+{
+    position: absolute;
+    width: 500px;
+    top: 60px;
+    right: calc(50% - 250px);
+    z-index: 77;
+}
+
 /* authentification */
-#authentification {
+#authentification
+{
     position: relative;
 }
 
-#authentificationContent {
+#authentificationContent
+{
     position: absolute;
     top: 30%;
 }
 
 /* home */
-#home {
+#home
+{
     position: relative;
 }
 
-#homeContent {
+#homeContent
+{
     position: absolute;
     top: 30%;
 }
-#homeContent h1 {
+#homeContent h1
+{
     font-size: 52px;
 }

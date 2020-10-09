@@ -25,6 +25,23 @@
     <!-- appel du header -->
     <?php require_once('header.php'); ?>
 
+    <!-- fenetre qui apparait uniquement en cas de message -->
+    <?php
+
+    if (isset($alert)) {
+    ?>
+        <div class="container" id="alertMessage">
+            <div class="row alert alert-success alert-dismissible fade show" role="alert">
+                <h5 class="alert-heading text-align-center"><?= $alert; ?></h5>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+        </div>
+    <?php
+    }
+    ?>
+
     <!-- appel de la variable body, changeante en fonction de la page appelée -->
     <?= $body; ?>
 

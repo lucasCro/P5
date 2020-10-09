@@ -1,3 +1,12 @@
+<!-- PHP -->
+<?php
+// affectation de la variable title (utilisé dans le template)
+$title = "Administrateur";
+// creation de la variable body (utilisé dans le template), debut:
+ob_start();
+?>
+
+<!-- HTML -->
 <!-- ADMINISTRATEUR -->
 <section>
     <div class="container-fluid">
@@ -35,3 +44,9 @@
         </div>
     </div>
 </section>
+
+<!-- PHP -->
+<?php
+// fin de la variable body:
+$body = ob_get_clean();
+?>

@@ -10,12 +10,6 @@ ob_start();
 <section id="myCalendar">
     <div class="container-fluid mt-3">
         <div class="container">
-            <div class="row alert alert-success alert-dismissible fade show" role="alert">
-                <h5 class="alert-heading">Prérequis</h5>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
             <h1>Mon agenda</h1>
             <div class="row mt-3">
                 <!-- menu contextuel -->

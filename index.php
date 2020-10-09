@@ -1,22 +1,37 @@
 <?php
 
+// appel du controller
 require_once('controllers/mainController.php');
+$controller = new Controller();
 
-function checkPassword() {
-    $password = true;
-    if ($password == false) {
-        return true;
-    } else {
-        return false;
+// choix des differents cas possible
+if (isset($_GET['page'])) 
+{
+    switch ($_GET['page']) 
+    {
+        case "calendar":
+            $controller->calendarView();
+            break;
+
+        case "picture":
+            $controller->pictureView();
+            break;
+
+        case "profil":
+            $controller->profilView();
+            break;
+
+        case "home":
+            $controller->homeView();
+            break;
+
+        default:
+            $controller->authentificationView();
     }
 }
-
-if (checkPassword() == true) {
-    require('view/accueil.php');
-    require('view/template.php');
-} else {
-    require('view/authentification.php');
-    require('view/template.php');
+else 
+{
+    $controller->authentificationView();
 }
 
  
