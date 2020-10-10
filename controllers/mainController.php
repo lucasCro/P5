@@ -1,6 +1,4 @@
 <?php
-// Demarrage de session_start pour utiliser les variable de sessions
-session_start();
 
 class Controller 
 {
@@ -10,7 +8,7 @@ class Controller
     function __construct()
     {
         require_once('models/connexionManager.php');
-        require_once('models/MembersManager.php');
+        require_once('models/membersManager.php');
     }
     
     // Fonction privé pour verifié les logs d'un utilisateur
@@ -79,6 +77,7 @@ class Controller
                     $_SESSION['prenom'] = $data['prenom'];
                     $_SESSION['nom'] = $data['nom'];
                     $_SESSION['mail'] = $data['mail'];
+                    // Convertion du booléan "admin" en texte (utilisé dans la partie profil utilisateur)
                     if ($data['admin'] == 1) 
                     {
                         $_SESSION['statut'] = "Administrateur";

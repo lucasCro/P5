@@ -1,4 +1,6 @@
 <?php
+// Demarrage de session_start pour utiliser les variable de sessions
+session_start();
 
 // appel du controller
 require_once('controllers/mainController.php');

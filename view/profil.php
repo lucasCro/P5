@@ -23,7 +23,7 @@ ob_start();
                     <label for="mail">Mon pseudo :</label>
                     <input type="mail" class="form-control" placeholder="<?= $_SESSION['mail']; ?>" id="mail">
                     <label for="statut">Mon statut :</label>
-                    <input type="text" class="form-control" placeholder="<?= $_SESSION['statut']; ?>" id="statut">
+                    <input type="text" class="form-control mb-3" placeholder="<?= $_SESSION['statut']; ?>" id="statut" readonly>
                 </div>
             </form>
         </div>

@@ -37,12 +37,11 @@ class MembersManager
         // Connection a la BDD
         $dbConnection = new ConnexionManager();
         $db = $dbConnection->dbConnection();
-        // Recuperation de la requete
-        $result = $db->prepare('SELECT * FROM member WHERE :memberMail');
+        // Recuperation des infos
+        $result = $db->prepare('SELECT * FROM member WHERE mail = :memberMail');
         $result->execute(array(
             "memberMail" => $memberMail
         ));
-        // Retourne le resultat sous forme d'un tableau $data
         return $result;
     }
 }
