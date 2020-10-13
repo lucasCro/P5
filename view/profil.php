@@ -20,10 +20,13 @@ ob_start();
                     <input type="text" class="form-control" placeholder="<?= $_SESSION['prenom']; ?>" id="prenom">
                     <label for="nom">Mon nom :</label>
                     <input type="text" class="form-control" placeholder="<?= $_SESSION['nom']; ?>" id="nom">
-                    <label for="mail">Mon pseudo :</label>
+                    <label for="mail">Mon mail :</label>
                     <input type="mail" class="form-control" placeholder="<?= $_SESSION['mail']; ?>" id="mail">
                     <label for="statut">Mon statut :</label>
                     <input type="text" class="form-control mb-3" placeholder="<?= $_SESSION['statut']; ?>" id="statut" readonly>
+                    <label for="password">Mon mot de passe : (Ne pas tenir compte de la longueur)</label>
+                    <input type="password" class="form-control mb-3" placeholder="<?= $_SESSION['password']; ?>" id="statut" readonly>
+                    <button class="btn btn-primary" id="btnUnlockPasswordInput">Débloquer la case mot de passe</button>
                 </div>
             </form>
         </div>

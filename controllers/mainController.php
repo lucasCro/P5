@@ -9,6 +9,7 @@ class Controller
     {
         require_once('models/connexionManager.php');
         require_once('models/membersManager.php');
+        require_once('models/profilManager.php');
     }
     
     // Fonction privé pour verifié les logs d'un utilisateur
@@ -51,8 +52,48 @@ class Controller
 
     public function adminView()
     {
-        require_once('view/administrateur.php');
-        require_once('view/template.php');
+        // Recuperation de la liste des membres:
+        if (isset($_POST['btnMembersManager']))
+        {
+            $member = new MembersManager();
+            $memberList = $member->getMembers();
+
+            require_once('view/administrateur.php');
+            require_once('view/template.php');
+        }
+        // Modification des données d'un membre
+        elseif (isset($_POST['btnModifyMember']) &&
+            (isset($_POST['pseudo']) && $_POST['pseudo'] != null) &&
+            (isset($_POST['statut']) && $_POST['statut'] != null) &&
+            (isset($_POST['prenom']) && $_POST['prenom'] != null) &&
+            (isset($_POST['nom']) && $_POST['nom'] != null) &&
+            (isset($_POST['mail']) && $_POST['mail'] != null)        
+        )
+        {
+            // rappel profil($pseudo, $nom, $prenom, $mail, $password, $statut, $picture)
+            $newProfil = new Profil ($_POST['pseudo'], $_POST['nom'],
+                                     $_POST['prenom'], $_POST['mail'],
+                                     $_POST['password'], $_POST['statut'], "" );
+
+            $memberUpdate = new MembersManager();
+            $memberUpdate->updateMember($newProfil, $_POST['id']);
+            require_once('view/administrateur.php');
+            require_once('view/template.php');
+        }
+        // Suppression d'un membre
+        elseif (isset($_POST['btnDeleteMember']))
+        {
+            $member = new MembersManager();
+            $member->deleteMember($_POST['id']);
+            require_once('view/administrateur.php');
+            require_once('view/template.php');
+        }
+        // Si aucun envoi de formulaire
+        else
+        {
+            require_once('view/administrateur.php');
+            require_once('view/template.php');
+        }     
     }
 
     public function authentificationView()
@@ -77,15 +118,8 @@ class Controller
                     $_SESSION['prenom'] = $data['prenom'];
                     $_SESSION['nom'] = $data['nom'];
                     $_SESSION['mail'] = $data['mail'];
-                    // Convertion du booléan "admin" en texte (utilisé dans la partie profil utilisateur)
-                    if ($data['admin'] == 1) 
-                    {
-                        $_SESSION['statut'] = "Administrateur";
-                    }
-                    else
-                    {
-                        $_SESSION['statut'] = "Utilisateur";
-                    }
+                    $_SESSION['statut'] = $data['statut'];
+                    $_SESSION['password'] = $data['password'];
                 }
                 $this->homeView();
             }
@@ -99,33 +133,32 @@ class Controller
         }
         // Actions si le formulaire d'INSCRIPTION est rempli
         elseif (isset($_POST['inscription']) &&
-                // Verification de la presence non null des variables
-                (isset($_POST['newPseudo']) && $_POST['newPseudo'] !=null) &&
-                (isset($_POST['newPassword']) && $_POST['newPassword'] !=null) &&
-                (isset($_POST['passwordConfirmation'])&& $_POST['passwordConfirmation'] != null) &&
-                (isset($_POST['nom']) && $_POST['nom'] != null) &&
-                (isset($_POST['prenom']) && $_POST['prenom'] != null) &&
-                (isset($_POST['mail']) && $_POST['mail'] != null)
-                )
+            // Verification de la presence non null des variables
+            (isset($_POST['newPseudo']) && $_POST['newPseudo'] !=null) &&
+            (isset($_POST['newPassword']) && $_POST['newPassword'] !=null) &&
+            (isset($_POST['passwordConfirmation'])&& $_POST['passwordConfirmation'] != null) &&
+            (isset($_POST['nom']) && $_POST['nom'] != null) &&
+            (isset($_POST['prenom']) && $_POST['prenom'] != null) &&
+            (isset($_POST['mail']) && $_POST['mail'] != null)
+        )
         {
-            // Securisation pour eviter la faille XSS
-            $pseudo = strip_tags($_POST['newPseudo']);
-            $password = md5($this->prefixe . strip_tags($_POST['newPassword']) . $this->suffixe); // encryptage en md5 et ajout d'un prefixe et suffixe pour securiser le mdp
+            $profil = new Profil($_POST['newPseudo'], $_POST['nom'], $_POST['prenom'], $_POST['mail'], $_POST['newPassword'], "User", "");
+
             $pwdConfirmation = md5($this->prefixe . strip_tags($_POST['passwordConfirmation']) . $this->suffixe);
-            $nom = strip_tags($_POST['nom']);
-            $prenom = strip_tags($_POST['prenom']);
-            $mail = strip_tags($_POST['mail']);
 
             // Verification du mot de passe identique a celui confirmé
-            if ($password == $pwdConfirmation)
+            if ($profil->getPassword() == $pwdConfirmation)
             {
                 $member = new MembersManager();
-                $member->addMember($pseudo, $password, $prenom, $nom, $mail);
-                $_SESSION['pseudo'] = $pseudo;
-                $_SESSION['prenom'] = $prenom;
-                $_SESSION['nom'] = $nom;
-                $_SESSION['mail'] = $mail;
-                $alert = 'Bienvenue '.$pseudo.', ton profil a bien été créé !';
+                $member->addMember($profil);
+                $_SESSION['pseudo'] = $profil->getPseudo();
+                $_SESSION['prenom'] = $profil->getPrenom();
+                $_SESSION['nom'] = $profil->getnom();
+                $_SESSION['mail'] = $profil->getmail();
+                $_SESSION['statut'] = $profil->getStatut();
+                $_SESSION['password'] = $profil->getPassword();
+                
+                $alert = 'Bienvenue '. $profil->getPseudo() .', ton profil a bien été créé !';
                 require_once('view/accueil.php');
                 require_once('view/template.php');
             }
@@ -138,7 +171,7 @@ class Controller
         }
         // Actions si le formulaire d'INSCRIPTION est n'est pas ENTIEREMENT rempli
         elseif (
-            isset($_POST['inscription']) &&
+            isset($_POST['inscription']) ||
             // Verification de la presence non null des variables
             (isset($_POST['newPseudo']) && $_POST['newPseudo'] != null) ||
             (isset($_POST['newPassword']) && $_POST['newPassword'] != null) ||

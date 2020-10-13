@@ -14,21 +14,21 @@ class MembersManager
         return $result;
     }
 
-    public function addMember($pseudo, $password, $prenom, $nom, $mail)
+    public function addMember($profil)
     {
         // Connection a la BDD
         $dbConnection = new ConnexionManager();
         $db = $dbConnection->dbConnection();
         // Requete d'insertion 
-        $insertRequest = $db->prepare('INSERT INTO member(pseudo, password, picture, admin, prenom, nom, mail) VALUES(:pseudo, :password, :picture, :admin, :prenom, :nom, :mail)');
+        $insertRequest = $db->prepare('INSERT INTO member(pseudo, password, picture, statut, prenom, nom, mail) VALUES(:pseudo, :password, :picture, :statut, :prenom, :nom, :mail)');
         $insertRequest->execute(array(
-            'pseudo' => $pseudo,
-            'password' => $password,
-            'picture' => "",
-            'admin' => null,
-            'prenom' => $prenom,
-            'nom' => $nom,
-            'mail' => $mail
+            'pseudo' => $profil->getPseudo(),
+            'password' => $profil->getPassword(),
+            'picture' => $profil->getPicture(),
+            'statut' => $profil->getStatut(),
+            'prenom' => $profil->getPrenom(),
+            'nom' => $profil->getNom(),
+            'mail' => $profil->getMail()
         ));
     }
 
@@ -43,5 +43,36 @@ class MembersManager
             "memberMail" => $memberMail
         ));
         return $result;
+    }
+
+    public function updateMember($profil, $id)
+    {
+        // Connection a la BDD
+        $dbConnection = new ConnexionManager();
+        $db = $dbConnection->dbConnection();
+
+        // Mise a jour de ses données
+        $update = $db->prepare('UPDATE member SET pseudo = :pseudo, password = :password, picture = :picture, statut = :statut, prenom = :prenom, nom = :nom, mail = :mail WHERE id = :id');
+        $update->execute(array(
+            'pseudo' => $profil->getPseudo(),
+            'password' => $profil->getPassword(),
+            'picture' => $profil->getPicture(),
+            'statut' => $profil->getStatut(),
+            'prenom' => $profil->getPrenom(),
+            'nom' => $profil->getNom(),
+            'mail' => $profil->getMail(),
+            'id' => $id
+        ));
+    }
+
+    public function deleteMember($id)
+    {
+        // Connection a la BDD
+        $dbConnection = new ConnexionManager();
+        $db = $dbConnection->dbConnection();
+
+        // Mise a jour de ses données
+        $delete = $db->prepare('DELETE FROM member WHERE id = :id');
+        $delete->execute(array( 'id' => $id));
     }
 }
