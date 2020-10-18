@@ -1,6 +1,6 @@
 <?php
 
-class Profil
+class ProfilManager
 {
     public $nom;
     public $prenom;
@@ -9,11 +9,10 @@ class Profil
     public $statut;
     public $mail;
     public $picture;
-    // Variable privé pour complexifié les mots de passe
     private $prefixe = "impossible";
     private $suffixe = "craquer";
 
-    public function __construct($pseudo, $nom, $prenom, $mail, $password, $statut, $picture)
+    public function __construct($pseudo, $nom, $prenom, $mail, $password = null, $statut="User", $picture= "public/images/imgProfil.jpg")
     {
         // Securisation pour eviter la faille XSS
         $this->nom = strtoupper(strip_tags($nom));
@@ -21,9 +20,20 @@ class Profil
         $this->pseudo = strip_tags($pseudo);
         $this->mail = strip_tags($mail);
         $this->statut = ucwords(strip_tags($statut));
-         // encryptage en md5 et ajout d'un prefixe et suffixe pour securiser le mdp:
-        $this->password = md5($this->prefixe . strip_tags($password) . $this->suffixe);
-        $this->picture = strip_tags($picture);
+        if ($password != null)
+        {
+            $this->password = md5($this->prefixe . strip_tags($password) . $this->suffixe);
+        }
+        else
+        {
+            $this->password = $_SESSION['password'];
+        }
+        $this->picture = $picture;
+
+    }
+    public function changePassword($password)
+    {
+
     }
 
     public function getNom()

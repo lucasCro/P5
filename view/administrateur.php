@@ -35,11 +35,12 @@ ob_start();
                     while ($member = $memberList->fetch()) {
                 ?>
 
-                        <div class="card col-5">
+                        <div class="card col-5 my-1">
                             <img class="card-img-top w-25" src="public/images/imgProfil.jpg" alt="photo de profil">
                             <div class="card-body">
                                 <form method="POST">
                                     <div class="group-form">
+                                        <button class="btn btn-primary my-1" name="btnModifyPicture">Changer la photo de profil</button>
                                         <h1><?= $member['nom']; ?> <?= $member['prenom']; ?></h1>
                                         <label for="pseudo">Pseudo :</label>
                                         <input type="text" class="form-control" value="<?= $member['pseudo']; ?>" id="pseudo" name="pseudo">
@@ -52,7 +53,7 @@ ob_start();
                                         <label for="statut">Statut :</label>
                                         <input type="text" class="form-control mb-3" value="<?= $member['statut']; ?>" id="statut" name="statut">
                                         <label for="password">Mot de passe :</label>
-                                        <input type="password" class="form-control" value="<?= $member['password']; ?>" id="password" name="password">
+                                        <input type="password" class="form-control" placeholder="changer de mot de passe ?" id="password" name="password">
                                         <input type="hidden" name="id" value="<?= $member['id']; ?>">
                                         <div class="row mt-3">
                                             <button type="submit" class="btn btn-primary mx-2" name="btnModifyMember">Modifier</button>

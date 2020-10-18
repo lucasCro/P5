@@ -11,26 +11,47 @@ ob_start();
 <section id="profil">
     <div class="container-fluid">
         <div class="container">
-            <form action="POST">
-                <div class="group-form">
-                    <h1>Mon profil</h1>
-                    <label for="pseudo">Mon pseudo :</label>
-                    <input type="text" class="form-control" placeholder="<?= $_SESSION['pseudo']; ?>" id="pseudo">
-                    <label for="prenom">Mon prénom :</label>
-                    <input type="text" class="form-control" placeholder="<?= $_SESSION['prenom']; ?>" id="prenom">
-                    <label for="nom">Mon nom :</label>
-                    <input type="text" class="form-control" placeholder="<?= $_SESSION['nom']; ?>" id="nom">
-                    <label for="mail">Mon mail :</label>
-                    <input type="mail" class="form-control" placeholder="<?= $_SESSION['mail']; ?>" id="mail">
-                    <label for="statut">Mon statut :</label>
-                    <input type="text" class="form-control mb-3" placeholder="<?= $_SESSION['statut']; ?>" id="statut" readonly>
-                    <label for="password">Mon mot de passe : (Ne pas tenir compte de la longueur)</label>
-                    <input type="password" class="form-control mb-3" placeholder="<?= $_SESSION['password']; ?>" id="statut" readonly>
-                    <button class="btn btn-primary" id="btnUnlockPasswordInput">Débloquer la case mot de passe</button>
+            <form method="POST" enctype="multipart/form-data">
+                <div class="card d-flex flex-row my-3">
+                    <div class="card-top col-4">
+                        <img class="card-img-top mb-2" src="<?= $_SESSION['picture'] ;?>" alt="photo de profil">
+                        <input type="file" name="picture" class="m-1"/>
+                        <button type="submit" class="btn btn-primary" name="btnChangePicture">Valider</button>
+                    </div>
+                    <div class="card-body pt-0 col-7">
+                        <div class="group-form my-5">
+
+                            <h1>Mon profil</h1>
+                            <label for="pseudo">Mon pseudo :</label>
+                            <input type="text" class="form-control" value="<?= $_SESSION['pseudo']; ?>" id="pseudo" name="pseudo">
+                            <label for="prenom">Mon prénom :</label>
+                            <input type="text" class="form-control" value="<?= $_SESSION['prenom']; ?>" id="prenom" name="prenom">
+                            <label for="nom">Mon nom :</label>
+                            <input type="text" class="form-control" value="<?= $_SESSION['nom']; ?>" id="nom" name="nom">
+                            <label for="mail">Mon mail :</label>
+                            <input type="mail" class="form-control" value="<?= $_SESSION['mail']; ?>" id="mail" name="mail">
+                            <label for="statut">Mon statut :</label>
+                            <input type="text" class="form-control mb-3" value="<?= $_SESSION['statut']; ?>" id="statut" name="statut" readonly>
+                            <label for="password">Mon mot de passe : (Ne pas tenir compte de la longueur)</label>
+                            <div class="row container-fluid justify-content-between m-0 p-0">
+                                <input type="password" class="form-control mb-3 col-10" placeholder="Ecrivez uniquement si vous voulez changer votre mot de passe" id="password" name="password" readonly>
+                                <div id="divBtnLock" class="col-1">
+                                    <button id="btnLockClose" class="btn btn-primary mb-3 active">
+                                        <span><i class="fas fa-lock"></i></span>
+                                    </button>
+                                    <button id="btnLockOpen" class="btn btn-primary mb-3">
+                                        <span><i class="fas fa-lock-open"></i></span>
+                                    </button>
+                                </div>
+                            </div>
+                            <input type="hidden" name="id" value="<?= $_SESSION['id']; ?>">
+                            <button type="submit" class="btn btn-primary " name="btnModifyMember">Modifier</button>
+                        </div>
+                    </div>
                 </div>
             </form>
+
         </div>
-    </div>
 </section>
 
 <!-- PHP -->

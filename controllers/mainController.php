@@ -46,8 +46,69 @@ class Controller
 
     public function profilView()
     {
-        require_once('view/profil.php');
-        require_once('view/template.php');
+        // Modification des données d'un membre
+        if (isset($_POST['btnModifyMember']) &&
+            (isset($_POST['pseudo']) && $_POST['pseudo'] != null) &&
+            (isset($_POST['statut']) && $_POST['statut'] != null) &&
+            (isset($_POST['prenom']) && $_POST['prenom'] != null) &&
+            (isset($_POST['nom']) && $_POST['nom'] != null) &&
+            (isset($_POST['mail']) && $_POST['mail'] != null)        
+        )
+        {
+            // rappel profil($pseudo, $nom, $prenom, $mail, $password, $statut, $picture)
+            $newProfil = new ProfilManager($_POST['pseudo'], $_POST['nom'],
+                                     $_POST['prenom'], $_POST['mail'],
+                                     $_POST['password'], $_POST['statut']);
+
+            $memberUpdate = new MembersManager();
+            $memberUpdate->updateMember($newProfil, $_POST['id']);
+            // mise a jour de ses infos
+            $infosMember = $memberUpdate->infosMember($newProfil->getMail());
+            
+            while ($data = $infosMember->fetch()) {
+                $_SESSION['pseudo'] = $data['pseudo'];
+                $_SESSION['prenom'] = $data['prenom'];
+                $_SESSION['nom'] = $data['nom'];
+                $_SESSION['mail'] = $data['mail'];
+                $_SESSION['statut'] = $data['statut'];
+                $_SESSION['password'] = $data['password'];
+                $_SESSION['id'] = $data['id'];
+                $_SESSION['picture'] = $data['picture'];
+            }
+            require_once('view/profil.php');
+            require_once('view/template.php');
+        }
+        // Modification de la photo de profil
+        // Test si le fichier a bien été envoyé et s'il n'y a pas d'erreur
+        elseif (isset($_FILES['picture']) && ($_FILES['picture']['error'] == 0))
+        {          
+            // Test si le fichier n'est pas trop gros
+            if ($_FILES['picture']['size'] <= 1000000) {
+                // Test si l'extension est autorisée
+                $infosfichier = pathinfo($_FILES['picture']['name']);
+                $extension_upload = $infosfichier['extension'];
+                $extensions_autorisees = array('jpg', 'jpeg', 'gif', 'png');
+                $picture = 'public/images/uploads/'.$_SESSION['prenom'].$_SESSION['nom'].'ProfilPicture.'.$extension_upload;
+                if (in_array($extension_upload, $extensions_autorisees)) {
+                    // On peut valider le fichier et le stocker définitivement
+                    move_uploaded_file($_FILES['picture']['tmp_name'], $picture);
+                    // Mise a jour du profil dans la BDD
+                    $profil = new ProfilManager($_SESSION['pseudo'], $_SESSION['nom'], $_SESSION['prenom'], $_SESSION['mail'],
+                        $_SESSION['password'], $_SESSION['statut'], $picture);
+                    $updateMember = new MembersManager();
+                    $updateMember->updateMember($profil, $_SESSION['id']);
+
+                    $alert = "L'envoi a bien été effectué !";
+                    require_once('view/profil.php');
+                    require_once('view/template.php');
+                }
+            }
+        }
+        else
+        {
+            require_once('view/profil.php');
+            require_once('view/template.php');
+        }
     }
 
     public function adminView()
@@ -71,7 +132,7 @@ class Controller
         )
         {
             // rappel profil($pseudo, $nom, $prenom, $mail, $password, $statut, $picture)
-            $newProfil = new Profil ($_POST['pseudo'], $_POST['nom'],
+            $newProfil = new ProfilManager ($_POST['pseudo'], $_POST['nom'],
                                      $_POST['prenom'], $_POST['mail'],
                                      $_POST['password'], $_POST['statut'], "" );
 
@@ -120,6 +181,7 @@ class Controller
                     $_SESSION['mail'] = $data['mail'];
                     $_SESSION['statut'] = $data['statut'];
                     $_SESSION['password'] = $data['password'];
+                    $_SESSION['id'] = $data['id'];
                 }
                 $this->homeView();
             }
@@ -142,7 +204,7 @@ class Controller
             (isset($_POST['mail']) && $_POST['mail'] != null)
         )
         {
-            $profil = new Profil($_POST['newPseudo'], $_POST['nom'], $_POST['prenom'], $_POST['mail'], $_POST['newPassword'], "User", "");
+            $profil = new ProfilManager($_POST['newPseudo'], $_POST['nom'], $_POST['prenom'], $_POST['mail'], $_POST['newPassword']);
 
             $pwdConfirmation = md5($this->prefixe . strip_tags($_POST['passwordConfirmation']) . $this->suffixe);
 
@@ -153,11 +215,20 @@ class Controller
                 $member->addMember($profil);
                 $_SESSION['pseudo'] = $profil->getPseudo();
                 $_SESSION['prenom'] = $profil->getPrenom();
-                $_SESSION['nom'] = $profil->getnom();
-                $_SESSION['mail'] = $profil->getmail();
+                $_SESSION['nom'] = $profil->getNom();
+                $_SESSION['mail'] = $profil->getMail();
                 $_SESSION['statut'] = $profil->getStatut();
                 $_SESSION['password'] = $profil->getPassword();
-                
+                $_SESSION['picture'] = $profil->getPicture();
+
+                // Recuperation de l'id 
+                $member = new MembersManager();
+                $infos = $member->infosMember($profil->getMail());
+                while ($data = $infos->fetch())
+                {
+                    $_SESSION['id'] = $data['id'];
+                }
+                 
                 $alert = 'Bienvenue '. $profil->getPseudo() .', ton profil a bien été créé !';
                 require_once('view/accueil.php');
                 require_once('view/template.php');

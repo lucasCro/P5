@@ -39,3 +39,20 @@ body {
 {
     font-size: 52px;
 }
+
+/* Profil */
+
+#divBtnLock
+{
+    position: relative;
+}
+
+#divBtnLock button
+{
+    position: absolute;
+}
+
+#btnLockOpen
+{
+    display: none;
+}
