@@ -1,6 +1,8 @@
 class Calendar {
+    this.event = [];
 
-    constructor() {
+    constructor ()
+    {
         this.calendarEl = document.getElementById('calendar');
         this.calendar = new FullCalendar.Calendar(this.calendarEl, {
             locale: 'fr',
@@ -22,7 +24,17 @@ class Calendar {
         });
     }
 
-    makeCalendar() {
+    makeCalendar ()
+    {
         this.calendar.render();
+    }
+
+    creatEvent (name, location, begin, end, description)
+    {
+    this.event.push({
+        title: name,
+        start = date,
+        end = end
+        })
     }
 }
