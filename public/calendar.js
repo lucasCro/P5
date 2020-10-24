@@ -1,5 +1,5 @@
 class Calendar {
-    this.event = [];
+    // this.event = [];
 
     constructor ()
     {
@@ -29,12 +29,12 @@ class Calendar {
         this.calendar.render();
     }
 
-    creatEvent (name, location, begin, end, description)
-    {
-    this.event.push({
-        title: name,
-        start = date,
-        end = end
-        })
-    }
+    // creatEvent (name, location, begin, end, description)
+    // {
+    // this.event.push({
+    //     title: name,
+    //     start = date,
+    //     end = end
+    //     })
+    // }
 }

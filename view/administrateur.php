@@ -36,11 +36,14 @@ ob_start();
                 ?>
 
                         <div class="card col-5 my-1">
-                            <img class="card-img-top w-25" src="public/images/imgProfil.jpg" alt="photo de profil">
-                            <div class="card-body">
-                                <form method="POST">
+                            <form method="POST">
+                                <div class="card-top col-4">
+                                    <img class="card-img-top mb-2" src="<?= $member['picture']; ?>" alt="photo de profil">
+                                    <input type="file" name="picture" class="m-1" />
+                                    <button type="submit" class="btn btn-primary" name="btnChangePicture">Valider</button>
+                                </div>
+                                <div class="card-body">
                                     <div class="group-form">
-                                        <button class="btn btn-primary my-1" name="btnModifyPicture">Changer la photo de profil</button>
                                         <h1><?= $member['nom']; ?> <?= $member['prenom']; ?></h1>
                                         <label for="pseudo">Pseudo :</label>
                                         <input type="text" class="form-control" value="<?= $member['pseudo']; ?>" id="pseudo" name="pseudo">
@@ -60,9 +63,10 @@ ob_start();
                                             <button type="submit" class="btn btn-primary" name="btnDeleteMember">Supprimer</button>
                                         </div>
                                     </div>
-                                </form>
-                            </div>
+                                </div>
+                            </form>
                         </div>
+
 
                         <!-- fin de la boucle php d'affichage des infos membres -->
                 <?php

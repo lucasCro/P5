@@ -97,6 +97,7 @@ class Controller
                         $_SESSION['password'], $_SESSION['statut'], $picture);
                     $updateMember = new MembersManager();
                     $updateMember->updateMember($profil, $_SESSION['id']);
+                    $_SESSION['picture'] = $picture;
 
                     $alert = "L'envoi a bien été effectué !";
                     require_once('view/profil.php');
@@ -182,6 +183,7 @@ class Controller
                     $_SESSION['statut'] = $data['statut'];
                     $_SESSION['password'] = $data['password'];
                     $_SESSION['id'] = $data['id'];
+                    $_SESSION['picture'] = $data['picture'];
                 }
                 $this->homeView();
             }
@@ -204,38 +206,49 @@ class Controller
             (isset($_POST['mail']) && $_POST['mail'] != null)
         )
         {
+            // Creation du nouveau profil
             $profil = new ProfilManager($_POST['newPseudo'], $_POST['nom'], $_POST['prenom'], $_POST['mail'], $_POST['newPassword']);
-
-            $pwdConfirmation = md5($this->prefixe . strip_tags($_POST['passwordConfirmation']) . $this->suffixe);
-
-            // Verification du mot de passe identique a celui confirmé
-            if ($profil->getPassword() == $pwdConfirmation)
+            // Appelle de la fonction checkPassword pour verifier que le MDP ai bien mini 8 caracteres, 1 minuscule, 1 majuscule et 1 chiffre
+            if ($profil->checkPassword($_POST['newPassword']) && $profil->checkMail($_POST['mail']))
             {
-                $member = new MembersManager();
-                $member->addMember($profil);
-                $_SESSION['pseudo'] = $profil->getPseudo();
-                $_SESSION['prenom'] = $profil->getPrenom();
-                $_SESSION['nom'] = $profil->getNom();
-                $_SESSION['mail'] = $profil->getMail();
-                $_SESSION['statut'] = $profil->getStatut();
-                $_SESSION['password'] = $profil->getPassword();
-                $_SESSION['picture'] = $profil->getPicture();
+                $pwdConfirmation = md5($this->prefixe . strip_tags($_POST['passwordConfirmation']) . $this->suffixe);
 
-                // Recuperation de l'id 
-                $member = new MembersManager();
-                $infos = $member->infosMember($profil->getMail());
-                while ($data = $infos->fetch())
+                // Verification du mot de passe identique a celui confirmé
+                if ($profil->getPassword() == $pwdConfirmation) 
                 {
-                    $_SESSION['id'] = $data['id'];
+                    $member = new MembersManager();
+                    $member->addMember($profil);
+                    $_SESSION['pseudo'] = $profil->getPseudo();
+                    $_SESSION['prenom'] = $profil->getPrenom();
+                    $_SESSION['nom'] = $profil->getNom();
+                    $_SESSION['mail'] = $profil->getMail();
+                    $_SESSION['statut'] = $profil->getStatut();
+                    $_SESSION['password'] = $profil->getPassword();
+                    $_SESSION['picture'] = $profil->getPicture();
+
+                    // Recuperation de l'id 
+                    $member = new MembersManager();
+                    $infos = $member->infosMember($profil->getMail());
+                    while ($data = $infos->fetch()) 
+                    {
+                        $_SESSION['id'] = $data['id'];
+                    }
+
+                    $alert = 'Bienvenue ' . $profil->getPseudo() . ', ton profil a bien été créé !';
+                    require_once('view/accueil.php');
+                    require_once('view/template.php');
+                } 
+                else 
+                {
+                    $alert = "Le mot de passe de confirmation est différent du mot de passe initial";
+                    require_once('view/authentification.php');
+                    require_once('view/template.php');
                 }
-                 
-                $alert = 'Bienvenue '. $profil->getPseudo() .', ton profil a bien été créé !';
-                require_once('view/accueil.php');
-                require_once('view/template.php');
             }
+            // Si le MDP n'est pas conforme
             else
             {
-                $alert = "Le mot de passe de confirmation est différent du mot de passe initial";
+                $alert = "Votre adresse mail doit etre valide et votre mot de passe doit comporter au minimum 8 caracateres, 1 majuscule, 1 minuscule et un chiffre";
                 require_once('view/authentification.php');
                 require_once('view/template.php');
             }

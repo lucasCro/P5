@@ -31,9 +31,27 @@ class ProfilManager
         $this->picture = $picture;
 
     }
-    public function changePassword($password)
+    public function checkPassword($password)
     {
+        $passwordRules = '#([a-zA-Z0-9]+){8}#';
+        if (preg_match($passwordRules, $password))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 
+    public function checkMail($mail)
+    {
+        $mailRules = '#^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-z]{2,4}$#';
+        if (preg_match($mailRules, $mail)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public function getNom()
