@@ -29,7 +29,7 @@ ob_start();
                             <label for="nom">Mon nom :</label>
                             <input type="text" class="form-control" value="<?= $_SESSION['nom']; ?>" id="nom" name="nom">
                             <label for="mail">Mon mail :</label>
-                            <input type="mail" class="form-control" value="<?= $_SESSION['mail']; ?>" id="mail" name="mail">
+                            <input type="email" class="form-control" value="<?= $_SESSION['mail']; ?>" id="mail" name="mail">
                             <label for="statut">Mon statut :</label>
                             <input type="text" class="form-control mb-3" value="<?= $_SESSION['statut']; ?>" id="statut" name="statut" readonly>
                             <label for="password">Mon mot de passe : (Ne pas tenir compte de la longueur)</label>

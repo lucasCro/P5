@@ -34,8 +34,19 @@ class Controller
 
     public function calendarView()
     {
-        require_once('view/agenda.php');
-        require_once('view/template.php');
+        if(isset($_POST['btnAddEvent']))
+        {
+            $member = new MembersManager();
+            $allMember = $member->getMembers();
+            require_once('view/agenda.php');
+            require_once('view/template.php');
+        }
+        else
+        {
+            require_once('view/agenda.php');
+            require_once('view/template.php');
+        }
+        
     }
 
     public function pictureView()
@@ -58,7 +69,7 @@ class Controller
             // rappel profil($pseudo, $nom, $prenom, $mail, $password, $statut, $picture)
             $newProfil = new ProfilManager($_POST['pseudo'], $_POST['nom'],
                                      $_POST['prenom'], $_POST['mail'],
-                                     $_POST['password'], $_POST['statut']);
+                                     $_POST['password'], $_POST['statut'], $_SESSION['picture']);
 
             $memberUpdate = new MembersManager();
             $memberUpdate->updateMember($newProfil, $_POST['id']);
@@ -135,7 +146,7 @@ class Controller
             // rappel profil($pseudo, $nom, $prenom, $mail, $password, $statut, $picture)
             $newProfil = new ProfilManager ($_POST['pseudo'], $_POST['nom'],
                                      $_POST['prenom'], $_POST['mail'],
-                                     $_POST['password'], $_POST['statut'], "" );
+                                     $_POST['password'], $_POST['statut'], $_SESSION['picture'] );
 
             $memberUpdate = new MembersManager();
             $memberUpdate->updateMember($newProfil, $_POST['id']);
@@ -246,9 +257,15 @@ class Controller
                 }
             }
             // Si le MDP n'est pas conforme
-            else
+            elseif (!$profil->checkPassword($_POST['newPassword']))
             {
-                $alert = "Votre adresse mail doit etre valide et votre mot de passe doit comporter au minimum 8 caracateres, 1 majuscule, 1 minuscule et un chiffre";
+                $alert = "Votre mot de passe doit comporter au minimum 8 caracateres, 1 majuscule, 1 minuscule et un chiffre";
+                require_once('view/authentification.php');
+                require_once('view/template.php');
+            } 
+            elseif (!$profil->checkMail($_POST['mail'])) 
+            {
+                $alert = "Votre adresse mail est incorrect";
                 require_once('view/authentification.php');
                 require_once('view/template.php');
             }

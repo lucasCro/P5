@@ -1,5 +1,4 @@
 class Calendar {
-    // this.event = [];
 
     constructor ()
     {
@@ -24,17 +23,27 @@ class Calendar {
         });
     }
 
+    // Creation du calendrier
     makeCalendar ()
     {
         this.calendar.render();
     }
 
-    // creatEvent (name, location, begin, end, description)
-    // {
-    // this.event.push({
-    //     title: name,
-    //     start = date,
-    //     end = end
-    //     })
-    // }
+    // Creation d un evenement
+    creatEvent ()
+    {
+        // Definition des variables
+        let name = $('eventName');
+        let localisation = $('eventLocalisation');
+        let start = $('eventStart');
+        let end = $('eventEnd');
+        let description = $('eventDescription');
+        let members = $('input:checked');
+
+        // Creation de l'objet event au format JSON
+        $.ajax({
+            url: 'evenements.json',
+            type: 'POST'
+        })
+    }
 }

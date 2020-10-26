@@ -28,8 +28,14 @@ class ProfilManager
         {
             $this->password = $_SESSION['password'];
         }
-        $this->picture = $picture;
-
+        if ($picture != "")
+        {
+            $this->picture = $picture;
+        }
+        else
+        {
+            $this->picture = $_SESSION['picture'];
+        }
     }
     public function checkPassword($password)
     {
