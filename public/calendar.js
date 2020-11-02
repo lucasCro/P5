@@ -30,20 +30,24 @@ class Calendar {
     }
 
     // Creation d un evenement
-    creatEvent ()
+    creatEvent()
     {
-        // Definition des variables
-        let name = $('eventName');
-        let localisation = $('eventLocalisation');
-        let start = $('eventStart');
-        let end = $('eventEnd');
-        let description = $('eventDescription');
-        let members = $('input:checked');
-
         // Creation de l'objet event au format JSON
-        $.ajax({
-            url: 'evenements.json',
-            type: 'POST'
-        })
+        $.post(
+            'test.php',
+            {
+                eventName: $('#eventName').val(),
+                eventLocalisation: $('#eventLocalisation').val(),
+                eventStart: $('#eventStart').val(),
+                eventEnd: $('#eventEnd').val(),
+                eventDescription: $('#eventDescription').val(),
+                eventMember: $('input:checked').val()
+            },
+            function (data)
+            {
+                $('#alertMessage').html("<p>"+data+"</p>");
+            },
+            'text'
+        )
     }
 }

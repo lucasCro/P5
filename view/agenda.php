@@ -67,7 +67,7 @@ ob_start();
                                 ?>
                             </div>
                         </fieldset>
-                        <button type="submit" class="btn btn-primary mt-1">Envoyer</button>
+                        <button type="submit" class="btn btn-primary mt-1" id="btnCreatEvent">Envoyer</button>
                     </div>
                 </form>
             </div>
