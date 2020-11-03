@@ -3,7 +3,15 @@ document.addEventListener('DOMContentLoaded', function () {
     calendar.makeCalendar();
 });
 
-$('#btnCreatEvent').on('click', function () {
-    let calendar = new Calendar();
-    calendar.creatEvent();
+$(document).ready(function () {
+
+    $('#btnCreatEvent').on('click', function () {
+        let calendar = new Calendar();
+        calendar.creatEvent();
+    });
+    $('#btnGetEvent').on('click', function () {
+        let calendar = new Calendar();
+        calendar.getEvent();
+    });
+
 });

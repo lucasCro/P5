@@ -20,12 +20,14 @@ ob_start();
                             <i class="fas fa-calendar-plus fa-2x"></i>
                         </button>
                     </form>
+                    <button type="button" class="btn btn-primary mt-1" id="btnGetEvent">GET</button>
                 </div>
 
                 <div class="col-11">
                     <div class="row mt-4" id="calendar"></div>
                 </div>
             </div>
+            <!-- formulaire creation evenement -->
             <div class="row">
                 <form>
                     <div class="form-group">
@@ -38,28 +40,26 @@ ob_start();
                             <input type="text" class="form-control" id="eventLocalisation">
                             <label for="eventStart">Debut :</label>
                             <input type="date" class="form-control" id="eventStart">
+                            <input type="time" class="form-control" id="eventStartTime">
                             <label for="eventEnd">Fin :</label>
                             <input type="date" class="form-control" id="eventEnd">
+                            <input type="time" class="form-control" id="eventEndTime">
                             <label for="eventDescription">Description :</label>
                             <textarea class="form-control" id="eventDescription"></textarea>
                         </fieldset>
                         <fieldset>
                             <legend>Participants :</legend>
                             <div class="container">
+                                <!-- recuperation en php des membres du site excluant le createur -->
                                 <?php
                                 if (isset($allMember)) {
                                     while ($infos = $allMember->fetch()) {
                                         if ($infos['id'] != $_SESSION['id']) {
-
                                 ?>
-
                                             <div class="row mb-1">
                                                 <label for="eventMember" class="form-check-label col-4"><?= $infos['nom'] . ' ' . $infos['prenom']; ?></label>
-                                                <input type="checkbox" class="form-check-input col-4" id="eventMember" name="<?= $infos['id']; ?>">
+                                                <input type="checkbox" class="form-check-input col-4" id="eventMember" name="<?= $infos['id']; ?>" value="<?= $infos['id'] ?>">
                                             </div>
-
-
-
                                 <?php
                                         }
                                     }
@@ -67,7 +67,7 @@ ob_start();
                                 ?>
                             </div>
                         </fieldset>
-                        <button type="submit" class="btn btn-primary mt-1" id="btnCreatEvent">Envoyer</button>
+                        <button type="button" class="btn btn-primary mt-1" id="btnCreatEvent">Envoyer</button>
                     </div>
                 </form>
             </div>
