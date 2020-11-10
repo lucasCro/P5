@@ -40,19 +40,37 @@ body {
     font-size: 52px;
 }
 
+/* Agenda */
+
+#divAgenda
+{
+    display: flex;
+    flex-direction: column;
+}
+
+#infosEvent
+{
+    display: none;
+}
+
+#confirmation
+{
+    display: none;
+}
+
+#divCreateEvent
+{
+    display: none;
+}
+
 /* Profil */
 
-#divBtnLock
+#imgBtnOpen
 {
-    position: relative;
+    display: none;
 }
 
-#divBtnLock button
-{
-    position: absolute;
-}
-
-#btnLockOpen
+#div_btnChangePassword
 {
     display: none;
 }

@@ -36,7 +36,7 @@ ob_start();
                 ?>
 
                         <div class="card col-5 my-1">
-                            <form method="POST">
+                            <form method="POST" enctype="multipart/form-data">
                                 <div class="card-top col-4">
                                     <img class="card-img-top mb-2" src="<?= $member['picture']; ?>" alt="photo de profil">
                                     <input type="file" name="picture" class="m-1" />
@@ -45,18 +45,18 @@ ob_start();
                                 <div class="card-body">
                                     <div class="group-form">
                                         <h1><?= $member['nom']; ?> <?= $member['prenom']; ?></h1>
-                                        <label for="pseudo">Pseudo :</label>
-                                        <input type="text" class="form-control" value="<?= $member['pseudo']; ?>" id="pseudo" name="pseudo">
-                                        <label for="prenom">Prénom :</label>
-                                        <input type="text" class="form-control" value="<?= $member['prenom']; ?>" id="prenom" name="prenom">
-                                        <label for="nom">Nom :</label>
-                                        <input type="text" class="form-control" value="<?= $member['nom']; ?>" id="nom" name="nom">
-                                        <label for="mail">Mail :</label>
-                                        <input type="mail" class="form-control" value="<?= $member['mail']; ?>" id="mail" name="mail">
-                                        <label for="statut">Statut :</label>
-                                        <input type="text" class="form-control mb-3" value="<?= $member['statut']; ?>" id="statut" name="statut">
-                                        <label for="password">Mot de passe :</label>
-                                        <input type="password" class="form-control" placeholder="changer de mot de passe ?" id="password" name="password">
+                                        <label for="<?= $member['pseudo']; ?>">Pseudo :</label>
+                                        <input type="text" class="form-control" value="<?= $member['pseudo']; ?>" id="<?= $member['pseudo']; ?>" name="pseudo">
+                                        <label for="<?= $member['prenom']; ?>">Prénom :</label>
+                                        <input type="text" class="form-control" value="<?= $member['prenom']; ?>" id="<?= $member['prenom']; ?>" name="prenom">
+                                        <label for="<?= $member['nom']; ?>">Nom :</label>
+                                        <input type="text" class="form-control" value="<?= $member['nom']; ?>" id="<?= $member['nom']; ?>" name="nom">
+                                        <label for="<?= $member['mail']; ?>">Mail :</label>
+                                        <input type="mail" class="form-control" value="<?= $member['mail']; ?>" id="<?= $member['mail']; ?>" name="mail">
+                                        <label>Statut :</label>
+                                        <input type="text" class="form-control mb-3" value="<?= $member['statut']; ?>" name="statut">
+                                        <label for="<?= $member['password']; ?>">Mot de passe :</label>
+                                        <input type="password" class="form-control" placeholder="changer de mot de passe ?" id="<?= $member['password']; ?>" name="password">
                                         <input type="hidden" name="id" value="<?= $member['id']; ?>">
                                         <div class="row mt-3">
                                             <button type="submit" class="btn btn-primary mx-2" name="btnModifyMember">Modifier</button>

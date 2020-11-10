@@ -5,11 +5,19 @@ require_once('connexionManager.php');
 $dbConnection = new ConnexionManager();
 $db = $dbConnection->dbConnection();
 // Recuperation de la requete
-$result = $db->query('SELECT * FROM events');
+$member = $_GET['memberId'];
+$result = $db->prepare('SELECT *
+                        FROM events 
+                        INNER JOIN jointable 
+                        ON jointable.event_id = events.eventId 
+                        WHERE jointable.member_id = :memberid');
+$result->execute(array(
+    'memberid' => $member
+));
 // Retourne le resultat en JSON
-$events = array();
+$events = null;
 while ( $data = $result->fetchAll(PDO::FETCH_ASSOC))
 {
-    $events[] = $data;
+    $events = $data;
 }
 echo json_encode($events);

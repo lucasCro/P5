@@ -28,145 +28,272 @@ class Controller
 
     public function homeView() 
     {
-        require_once('view/accueil.php');
-        require_once('view/template.php');
+        if(isset($_SESSION['id']))
+        {
+            require_once('view/accueil.php');
+            require_once('view/template.php');
+        }
+        else
+        {
+            require_once('view/notuser.php');
+            require_once('view/template.php');
+        }    
     }
 
     public function calendarView()
     {
-        if(isset($_POST['btnAddEvent']))
+        if (isset($_SESSION['id'])) 
         {
-            $member = new MembersManager();
-            $allMember = $member->getMembers();
             require_once('view/agenda.php');
             require_once('view/template.php');
         }
         else
         {
-            require_once('view/agenda.php');
+            require_once('view/notuser.php');
             require_once('view/template.php');
-        }
-        
+        }    
     }
 
     public function pictureView()
     {
+        if (isset($_SESSION['id'])) 
+        {
         require_once('view/photo.php');
         require_once('view/template.php');
+        }
+        else {
+            require_once('view/notuser.php');
+            require_once('view/template.php');
+        } 
     }
 
     public function profilView()
     {
-        // Modification des données d'un membre
-        if (isset($_POST['btnModifyMember']) &&
-            (isset($_POST['pseudo']) && $_POST['pseudo'] != null) &&
-            (isset($_POST['statut']) && $_POST['statut'] != null) &&
-            (isset($_POST['prenom']) && $_POST['prenom'] != null) &&
-            (isset($_POST['nom']) && $_POST['nom'] != null) &&
-            (isset($_POST['mail']) && $_POST['mail'] != null)        
-        )
+        if (isset($_SESSION['id'])) 
         {
-            // rappel profil($pseudo, $nom, $prenom, $mail, $password, $statut, $picture)
-            $newProfil = new ProfilManager($_POST['pseudo'], $_POST['nom'],
-                                     $_POST['prenom'], $_POST['mail'],
-                                     $_POST['password'], $_POST['statut'], $_SESSION['picture']);
+            // Modification des données d'un membre (SAUF Mot de passe)
+            if (isset($_POST['btnModifyMember']) &&
+                (isset($_POST['pseudo']) && $_POST['pseudo'] != null) &&
+                (isset($_POST['statut']) && $_POST['statut'] != null) &&
+                (isset($_POST['prenom']) && $_POST['prenom'] != null) &&
+                (isset($_POST['nom']) && $_POST['nom'] != null) &&
+                (isset($_POST['mail']) && $_POST['mail'] != null)        
+            )
+            {
+                // rappel profil($pseudo, $nom, $prenom, $mail, $password, $statut, $picture)
+                $newProfil = new ProfilManager($_POST['pseudo'], $_POST['nom'],
+                                        $_POST['prenom'], $_POST['mail'],
+                                        null, $_POST['statut'], $_SESSION['picture']);
 
-            $memberUpdate = new MembersManager();
-            $memberUpdate->updateMember($newProfil, $_POST['id']);
-            // mise a jour de ses infos
-            $infosMember = $memberUpdate->infosMember($newProfil->getMail());
-            
-            while ($data = $infosMember->fetch()) {
-                $_SESSION['pseudo'] = $data['pseudo'];
-                $_SESSION['prenom'] = $data['prenom'];
-                $_SESSION['nom'] = $data['nom'];
-                $_SESSION['mail'] = $data['mail'];
-                $_SESSION['statut'] = $data['statut'];
-                $_SESSION['password'] = $data['password'];
-                $_SESSION['id'] = $data['id'];
-                $_SESSION['picture'] = $data['picture'];
+                $memberUpdate = new MembersManager();
+                $memberUpdate->updateMember($newProfil, $_POST['id']);
+                // mise a jour de ses infos
+                $infosMember = $memberUpdate->infosMember($newProfil->getMail());
+                
+                while ($data = $infosMember->fetch()) {
+                    $_SESSION['pseudo'] = $data['pseudo'];
+                    $_SESSION['prenom'] = $data['prenom'];
+                    $_SESSION['nom'] = $data['nom'];
+                    $_SESSION['mail'] = $data['mail'];
+                    $_SESSION['statut'] = $data['statut'];
+                    $_SESSION['password'] = $data['password'];
+                    $_SESSION['id'] = $data['id'];
+                    $_SESSION['picture'] = $data['picture'];
+                }
+                $alert ="Votre profil est mis a jour!";
+                require_once('view/profil.php');
+                require_once('view/template.php');
             }
-            require_once('view/profil.php');
-            require_once('view/template.php');
-        }
-        // Modification de la photo de profil
-        // Test si le fichier a bien été envoyé et s'il n'y a pas d'erreur
-        elseif (isset($_FILES['picture']) && ($_FILES['picture']['error'] == 0))
-        {          
-            // Test si le fichier n'est pas trop gros
-            if ($_FILES['picture']['size'] <= 1000000) {
-                // Test si l'extension est autorisée
-                $infosfichier = pathinfo($_FILES['picture']['name']);
-                $extension_upload = $infosfichier['extension'];
-                $extensions_autorisees = array('jpg', 'jpeg', 'gif', 'png');
-                $picture = 'public/images/uploads/'.$_SESSION['prenom'].$_SESSION['nom'].'ProfilPicture.'.$extension_upload;
-                if (in_array($extension_upload, $extensions_autorisees)) {
-                    // On peut valider le fichier et le stocker définitivement
-                    move_uploaded_file($_FILES['picture']['tmp_name'], $picture);
-                    // Mise a jour du profil dans la BDD
-                    $profil = new ProfilManager($_SESSION['pseudo'], $_SESSION['nom'], $_SESSION['prenom'], $_SESSION['mail'],
-                        $_SESSION['password'], $_SESSION['statut'], $picture);
-                    $updateMember = new MembersManager();
-                    $updateMember->updateMember($profil, $_SESSION['id']);
-                    $_SESSION['picture'] = $picture;
+            // Modification du MOT DE PASSE
+            elseif (isset($_POST['btnChangePassword']))
+            {
+                // rappel profil($pseudo, $nom, $prenom, $mail, $password, $statut, $picture)
+                $newProfil = new ProfilManager(
+                    $_POST['pseudo'],
+                    $_POST['nom'],
+                    $_POST['prenom'],
+                    $_POST['mail'],
+                    $_POST['password'],
+                    $_POST['statut'],
+                    $_SESSION['picture']
+                );
 
-                    $alert = "L'envoi a bien été effectué !";
-                    require_once('view/profil.php');
-                    require_once('view/template.php');
+                $memberUpdate = new MembersManager();
+                $memberUpdate->updateMember($newProfil, $_POST['id']);
+                // mise a jour de ses infos
+                $infosMember = $memberUpdate->infosMember($newProfil->getMail());
+
+                while ($data = $infosMember->fetch()) {
+                    $_SESSION['pseudo'] = $data['pseudo'];
+                    $_SESSION['prenom'] = $data['prenom'];
+                    $_SESSION['nom'] = $data['nom'];
+                    $_SESSION['mail'] = $data['mail'];
+                    $_SESSION['statut'] = $data['statut'];
+                    $_SESSION['password'] = $data['password'];
+                    $_SESSION['id'] = $data['id'];
+                    $_SESSION['picture'] = $data['picture'];
+                }
+                $alert = "Votre mot de passe a été changé !";
+                require_once('view/profil.php');
+                require_once('view/template.php');
+            }
+            // Modification de la photo de profil
+            // Test si le fichier a bien été envoyé et s'il n'y a pas d'erreur
+            elseif (isset($_FILES['picture']) && ($_FILES['picture']['error'] == 0)) {
+                // Test si le fichier n'est pas trop gros
+                if ($_FILES['picture']['size'] <= 1000000) {
+                    // Test si l'extension est autorisée
+                    $infosfichier = pathinfo($_FILES['picture']['name']);
+                    $extension_upload = $infosfichier['extension'];
+                    $extensions_autorisees = array('jpg', 'jpeg', 'gif', 'png');
+                    $picture = 'public/images/uploads/' . $_SESSION['prenom'] . $_SESSION['nom'] . 'ProfilPicture.' . $extension_upload;
+                    if (in_array($extension_upload, $extensions_autorisees)) {
+                        // On peut valider le fichier et le stocker définitivement
+                        move_uploaded_file($_FILES['picture']['tmp_name'], $picture);
+                        // Mise a jour du profil dans la BDD
+                        $profil = new ProfilManager(
+                            $_SESSION['pseudo'],
+                            $_SESSION['nom'],
+                            $_SESSION['prenom'],
+                            $_SESSION['mail'],
+                            null,
+                            $_SESSION['statut'],
+                            $picture
+                        );
+                        $updateMember = new MembersManager();
+                        $updateMember->updateMember($profil, $_SESSION['id']);
+                        $_SESSION['picture'] = $picture;
+
+                        $alert = "L'envoi a bien été effectué !";
+                        require_once('view/profil.php');
+                        require_once('view/template.php');
+                    } else {
+                        $alert = "l'extension de l'image n'est pas supporté (extensions autorisées: .jpg, .jpeg, .gif, .png)";
+                    }
+                } else {
+                    $alert = "L'image est trop lourde";
                 }
             }
+            // Bouton deconnexion
+            elseif(isset($_POST['btnDeconnectMember']))
+            {
+                unset($_SESSION['pseudo']);
+                unset($_SESSION['prenom']);
+                unset($_SESSION['nom']);
+                unset($_SESSION['mail']);
+                unset($_SESSION['statut']);
+                unset($_SESSION['password']);
+                unset($_SESSION['id']);
+                unset($_SESSION['picture']);
+                require_once('view/authentification.php');
+                require_once('view/template.php');
+            }
+            else
+            {
+                require_once('view/profil.php');
+                require_once('view/template.php');
+            }
         }
-        else
+        else 
         {
-            require_once('view/profil.php');
+            require_once('view/notuser.php');
             require_once('view/template.php');
-        }
+        } 
     }
 
     public function adminView()
     {
-        // Recuperation de la liste des membres:
-        if (isset($_POST['btnMembersManager']))
+        if (isset($_SESSION['id']) && $_SESSION['statut'] == 'Admin') 
         {
-            $member = new MembersManager();
-            $memberList = $member->getMembers();
+            // Recuperation de la liste des membres:
+            if (isset($_POST['btnMembersManager']))
+            {
+                $member = new MembersManager();
+                $memberList = $member->getMembers();
 
-            require_once('view/administrateur.php');
-            require_once('view/template.php');
-        }
-        // Modification des données d'un membre
-        elseif (isset($_POST['btnModifyMember']) &&
-            (isset($_POST['pseudo']) && $_POST['pseudo'] != null) &&
-            (isset($_POST['statut']) && $_POST['statut'] != null) &&
-            (isset($_POST['prenom']) && $_POST['prenom'] != null) &&
-            (isset($_POST['nom']) && $_POST['nom'] != null) &&
-            (isset($_POST['mail']) && $_POST['mail'] != null)        
-        )
-        {
-            // rappel profil($pseudo, $nom, $prenom, $mail, $password, $statut, $picture)
-            $newProfil = new ProfilManager ($_POST['pseudo'], $_POST['nom'],
-                                     $_POST['prenom'], $_POST['mail'],
-                                     $_POST['password'], $_POST['statut'], $_SESSION['picture'] );
+                require_once('view/administrateur.php');
+                require_once('view/template.php');
+            }
+            // Modification des données d'un membre
+            elseif (isset($_POST['btnModifyMember']) &&
+                (isset($_POST['pseudo']) && $_POST['pseudo'] != null) &&
+                (isset($_POST['statut']) && $_POST['statut'] != null) &&
+                (isset($_POST['prenom']) && $_POST['prenom'] != null) &&
+                (isset($_POST['nom']) && $_POST['nom'] != null) &&
+                (isset($_POST['mail']) && $_POST['mail'] != null)        
+            )
+            {
+                // rappel: profil($pseudo, $nom, $prenom, $mail, $password, $statut, $picture)
+                $newProfil = new ProfilManager ($_POST['pseudo'], $_POST['nom'],
+                                        $_POST['prenom'], $_POST['mail'],
+                                        $_POST['password'], $_POST['statut'], $_SESSION['picture'] );
 
-            $memberUpdate = new MembersManager();
-            $memberUpdate->updateMember($newProfil, $_POST['id']);
-            require_once('view/administrateur.php');
-            require_once('view/template.php');
-        }
-        // Suppression d'un membre
-        elseif (isset($_POST['btnDeleteMember']))
-        {
-            $member = new MembersManager();
-            $member->deleteMember($_POST['id']);
-            require_once('view/administrateur.php');
-            require_once('view/template.php');
-        }
-        // Si aucun envoi de formulaire
+                $memberUpdate = new MembersManager();
+                $memberUpdate->updateMember($newProfil, $_POST['id']);
+                $alert = "Profil mis a jour";
+                require_once('view/administrateur.php');
+                require_once('view/template.php');
+            }
+            // Suppression d'un membre
+            elseif (isset($_POST['btnDeleteMember']))
+            {
+                $member = new MembersManager();
+                $member->deleteMember($_POST['id']);
+                require_once('view/administrateur.php');
+                require_once('view/template.php');
+            }
+            // Modification de la photo de profil
+            // Test si le fichier a bien été envoyé et s'il n'y a pas d'erreur
+            elseif (isset($_FILES['picture']) && ($_FILES['picture']['error'] == 0)) {
+                // Test si le fichier n'est pas trop gros
+                if ($_FILES['picture']['size'] <= 1000000) {
+                    // Test si l'extension est autorisée
+                    $infosfichier = pathinfo($_FILES['picture']['name']);
+                    $extension_upload = $infosfichier['extension'];
+                    $extensions_autorisees = array('jpg', 'jpeg', 'gif', 'png');
+                    $picture = 'public/images/uploads/' . $_SESSION['prenom'] . $_SESSION['nom'] . 'ProfilPicture.' . $extension_upload;
+                    if (in_array($extension_upload, $extensions_autorisees)) {
+                        // On peut valider le fichier et le stocker définitivement
+                        move_uploaded_file($_FILES['picture']['tmp_name'], $picture);
+                        // Mise a jour du profil dans la BDD
+                        $profil = new ProfilManager(
+                            $_POST['pseudo'],
+                            $_POST['nom'],
+                            $_POST['prenom'],
+                            $_POST['mail'],
+                            null,
+                            $_POST['statut'],
+                            $picture
+                        );
+                        $updateMember = new MembersManager();
+                        $updateMember->updateMember($profil, $_POST['id']);
+
+                        $alert = "L'envoi a bien été effectué !";
+                        require_once('view/administrateur.php');
+                        require_once('view/template.php');
+                    }
+                    else
+                    {
+                        $alert = "l'extension de l'image n'est pas supporté (extensions autorisées: .jpg, .jpeg, .gif, .png)";
+                    }
+                }
+                else
+                {
+                    $alert = "L'image est trop lourde";
+                }
+            }
+            // Si aucun envoi de formulaire
+            else
+            {
+                require_once('view/administrateur.php');
+                require_once('view/template.php');
+            }
+        } 
         else
         {
-            require_once('view/administrateur.php');
+            require_once('view/notuser.php');
             require_once('view/template.php');
-        }     
+        }   
     }
 
     public function authentificationView()

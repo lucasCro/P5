@@ -2,7 +2,7 @@ class Calendar {
 
     constructor ()
     {
-        this.events = [];
+        this.events = this.getEvent();
         this.calendarEl = document.getElementById('calendar');
         this.calendar = new FullCalendar.Calendar(this.calendarEl, {
             locale: 'fr',
@@ -21,7 +21,23 @@ class Calendar {
                 day: 'Jour',
                 list: 'Liste'
             },
-            events: this.events
+            events: this.events,
+            eventDisplay: 'block',
+            eventClick: (infos) => {
+                $('#infosEvent').toggle(),
+                $('#divAgenda').toggle(),
+                $('#infosEventTitle').text(infos.event.title),
+                $('#infosEventCreator').text(infos.event.extendedProps.creator),
+                $('#infosEventDescription').text(infos.event.extendedProps.description),
+                $('#infosEventLocalisation').text(infos.event.extendedProps.localisation),
+                $('#infosEventId').val(infos.event.id);
+                
+                let memberList = this.getMembersInEvent(infos.event.id)
+                for (let member of memberList)
+                {
+                    $('#infosEventMembers').append('<li>'+member.nom + ' ' + member.prenom+'</li>');
+                }
+            }
         });
     }
 
@@ -34,17 +50,20 @@ class Calendar {
     // Creation d un evenement
     creatEvent()
     {
+        // Tableau des membres participants
         let members = [];
+        // Recuperation des bouton radio checked
         $('input:checked').each(function ()
         {
             let name = $(this).val();
             members.push(name);
         }
         )
-
+        members.push($('#eventCreator').val());
+        // Debut et Fin de l'evenement au format DATETIME
         let beginning = $('#eventStart').val() + " " + $('#eventStartTime').val();
         let end = $('#eventEnd').val() + " " + $('#eventEndTime').val();
-        // Creation de l'objet event au format JSON
+        // Envoi des données en AJAX
         $.post(
             '/models/creatEvent.php',
             {
@@ -53,17 +72,22 @@ class Calendar {
                 eventStart: beginning,
                 eventEnd: end,
                 eventDescription: $('#eventDescription').val(),
-                eventMember: members
+                eventMember: members,
+                eventCreator: $('#eventCreator').val()
             }
-        )
+        );
     }
 
     // Recuperation des evenements depuis la BDD 
     getEvent()
     {
+        let memberId = $('#memberId').val();
+        let result;
+        $.ajaxSetup({ async: false });
         $.get(
-            '/models/getEvent.php',
-            'false',
+            // 
+            '/models/getEvent.php?memberId='+memberId,
+            'true',
             function (data)
             {
                 // si aucun evenement dans la BDD
@@ -78,19 +102,94 @@ class Calendar {
                     for (let event of data)
                     {
                         eventList.push({
-                            "title": event.eventName,
-                            "start": event.eventStart,
-                            "end": event.eventEnd
+                            "title":event.eventName,
+                            "start":event.eventStart,
+                            "end": event.eventEnd,
+                            "id": event.event_id,
+                            "localisation": event.eventLocalisation,
+                            "description": event.eventDescription,
+                            "creator": event.eventCreator
+
                         });
-                        console.log(event.EventName);
                     }
-                    this.events = eventList;
-                    // Pour tester le resultat:
-                    console.log(data);
-                    console.log(this.events);
+                    result = eventList;
                 }
             },
             'JSON'
+        )
+       return result;
+    }
+
+    getMembersInEvent(event_id)
+    {
+        let eventId = event_id;
+        let memberList = [];
+        $.get(
+            '/models/getMembers.php?eventId=' + eventId,
+            true,
+            function (data) {
+                for (let member of data)
+                {
+                    memberList.push({
+                        "nom": member.nom,
+                        "prenom": member.prenom,
+                        "pseudo": member.pseudo,
+                        "id": member.id
+                    })  
+                }            
+            },
+            'JSON'            
+        )
+        return memberList;
+    }
+
+    getAllMembers()
+    {
+        let allMembers = [];
+        $.get(
+            '/models/getAllMembers.php',
+            false,
+            function (data) {
+                for (let member of data) {
+                    // Pour ne pas afficher le createur dans la liste
+                    if (member.id != $('#memberId').val()) {
+                        allMembers.push({
+                            "nom": member.nom,
+                            "prenom": member.prenom,
+                            "pseudo": member.pseudo,
+                            "id": member.id
+                        })
+                    }
+                }
+            },
+            'JSON'
+        )  
+        return allMembers;
+    }
+
+    deleteEvent()
+    {
+        $.post(
+            'models/deleteEvent.php',
+            {
+                eventId: $('#infosEventId').val()
+            }
+        )
+    }
+
+    getTest()
+    {
+        let memberId = $('#memberId').val();
+        let result;
+        $.ajaxSetup({
+            async: false
+        });
+        $.get(
+                '/models/getEvent.php?memberId=' + memberId,
+                'true',
+            function (data) {
+                console.log(data);
+            }
         )
     }
 }

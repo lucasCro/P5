@@ -10,30 +10,16 @@ ob_start();
 <section id="myCalendar">
     <div class="container-fluid mt-3">
         <div class="container">
-            <h1>Mon agenda</h1>
-            <div class="row mt-3">
-                <!-- menu contextuel -->
-                <div class="col-1 mx-auto my-auto">
-                    <form method="POST">
-                        <!-- bouton ajouter evenement -->
-                        <button type="submit" class="btn btn-primary p-2" title="Ajouter un evenement" id="btnAddEvent" name="btnAddEvent">
-                            <i class="fas fa-calendar-plus fa-2x"></i>
-                        </button>
-                    </form>
-                    <button type="button" class="btn btn-primary mt-1" id="btnGetEvent">GET</button>
-                </div>
+            <input type="hidden" id="memberId" value="<?= $_SESSION['id']; ?>">
 
-                <div class="col-11">
-                    <div class="row mt-4" id="calendar"></div>
-                </div>
-            </div>
             <!-- formulaire creation evenement -->
-            <div class="row">
+            <div class="row" id="divCreateEvent">
                 <form>
                     <div class="form-group">
                         <h1>Création d'un evenement :</h1>
                         <fieldset>
                             <legend>Evenement :</legend>
+                            <input type="hidden" id="eventCreator" value="<?= $_SESSION['id']; ?>">
                             <label for="eventName">Nom de l'evenement :</label>
                             <input type="text" class="form-control" id="eventName">
                             <label for="eventLocalisation">localisation de l'evenement :</label>
@@ -49,27 +35,49 @@ ob_start();
                         </fieldset>
                         <fieldset>
                             <legend>Participants :</legend>
-                            <div class="container">
-                                <!-- recuperation en php des membres du site excluant le createur -->
-                                <?php
-                                if (isset($allMember)) {
-                                    while ($infos = $allMember->fetch()) {
-                                        if ($infos['id'] != $_SESSION['id']) {
-                                ?>
-                                            <div class="row mb-1">
-                                                <label for="eventMember" class="form-check-label col-4"><?= $infos['nom'] . ' ' . $infos['prenom']; ?></label>
-                                                <input type="checkbox" class="form-check-input col-4" id="eventMember" name="<?= $infos['id']; ?>" value="<?= $infos['id'] ?>">
-                                            </div>
-                                <?php
-                                        }
-                                    }
-                                }
-                                ?>
+                            <div class="container" id="div_memberInEvent">
                             </div>
                         </fieldset>
-                        <button type="button" class="btn btn-primary mt-1" id="btnCreatEvent">Envoyer</button>
+                        <button type="button" class="btn btn-primary backToCalendar">Retour</button>
+                        <button type="button" class="btn btn-success" id="btnCreatEvent">Envoyer</button>
                     </div>
                 </form>
+            </div>
+
+            <!-- fenetre qui s affiche uniquement apres clique sur un evenement -->
+            <div id="infosEvent" class="mb-3">
+                <h1><span id="infosEventTitle"></span></h1>
+                <h3>Organisateur:</h3>
+                <p><span id="infosEventCreator"></span></p>
+                <h3>Desctiption:</h3>
+                <p><span id="infosEventDescription"></span></p>
+                <h3>Lieu:</h3>
+                <p><span id="infosEventLocalisation"></span></p>
+                <h3>Participants:</h3>
+                <ul id="infosEventMembers" class="my-4">
+                </ul>
+                <input type="hidden" id="infosEventId">
+                <button type="button" class="btn btn-primary backToCalendar">Retour a l'agenda !</button>
+                <button type="button" class="btn btn-warning" id="btnDeleteEvents">Supprimer l'evenement</button>
+                <div id="confirmation" class="my-4">
+                    <p>Es tu sur de vouloir supprimer l'evenement ?</p>
+                    <button type="button" class="btn btn-primary" id="back">Retour</button>
+                    <button type="button" class="btn btn-warning deleteEvent">Oui</button>
+                </div>
+            </div>
+
+
+            <!-- Partie Agenda + bouton ajout evenement -->
+            <div class="container-fluid mt-3" id="divAgenda">
+                <h1 class="text-center text-uppercase">Mon agenda</h1>
+                <div class="row">
+                    <!-- bouton ajouter evenement -->
+                    <button type="button" class="btn btn-success p-2" title="Ajouter un evenement" id="btnAddEvent" name="btnAddEvent">
+                        Ajouter un evenement
+                    </button>
+                </div>
+
+                <div class="row mt-4 mb-3" id="calendar"></div>
             </div>
         </div>
     </div>
