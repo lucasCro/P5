@@ -7,7 +7,7 @@ ob_start();
 ?>
 <div class="container-fluid">
     <div class="container">
-        <h1>Il faut s'être identifié pour acceder a cette page ! </h1>
+        <h1 class="my-3 text-center text-uppercase text-info">Il faut s'être identifié pour acceder a cette page ! </h1>
         <a type="button" class="btn btn-primary" href="index.php">Se connecter</a>
     </div>
 </div>

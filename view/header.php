@@ -1,6 +1,6 @@
 <!-- header -->
 <header>
-    <div class="container-fluid bg-primary fixed-top">
+    <div class="container-fluid bg-info fixed-top">
         <div class="container">
             <div class="row">
                 <!-- nav bar en responsive -->

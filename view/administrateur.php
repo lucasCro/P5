@@ -10,12 +10,11 @@ ob_start();
 <!-- ADMINISTRATEUR -->
 <section>
     <div class="container-fluid">
-        <div class="container">
-            <h1>Administrateur</h1>
+        <div class="container justify-content-center">
+            <h1 class="my-3 text-info text-uppercase">Administrateur</h1>
 
             <!-- bouton menu -->
-            <div class="row justify-content-center mt-5">
-                <form method="POST" class="form-group">
+                <form method="POST" class="mt-5">
                     <div class="form-group">
                         <button type="submit" name="btnMembersManager" class="btn btn-primary mr-3">
                             Gestion des membres
@@ -25,7 +24,6 @@ ob_start();
                         </button>
                     </div>
                 </form>
-            </div>
 
             <!-- div affichage membres -->
             <div class="container row mt-3 justify-content-between">
@@ -34,8 +32,7 @@ ob_start();
                 if (isset($memberList)) {
                     while ($member = $memberList->fetch()) {
                 ?>
-
-                        <div class="card col-5 my-1">
+                        <div class="card col-5 my-1 border-secondary">
                             <form method="POST" enctype="multipart/form-data">
                                 <div class="card-top col-4">
                                     <img class="card-img-top mb-2" src="<?= $member['picture']; ?>" alt="photo de profil">
@@ -66,15 +63,50 @@ ob_start();
                                 </div>
                             </form>
                         </div>
-
-
                         <!-- fin de la boucle php d'affichage des infos membres -->
                 <?php
                     }
                 }
                 ?>
             </div>
-
+            <div class="container row mt-3 justify-content-between">
+                <!-- récuperation et affichage des informations sur les evenements ($event et $memberInEvent créé dans le mainController) -->
+                <?php
+                if (isset($event)) {
+                    while ($eventInfos = $event->fetch()) {
+                        $creator = $eventManager->getEventCreator($eventInfos['eventId']);
+                ?>
+                        <form method="POST" class="my-3 mx-2 col-5">
+                            <div class="form-group">
+                                <h2 class="text-info"><?= $eventInfos['eventName']; ?></h2>
+                                <h5 class="text-primary">Organisateur:</h5>
+                                <p><?= $creator; ?></p>
+                                <h5 class="text-primary">Desctiption:</h5>
+                                <p><?= $eventInfos['eventDescription']; ?></p>
+                                <h5 class="text-primary">Lieu:</h5>
+                                <p><?= $eventInfos['eventLocalisation']; ?></p>
+                                <h5 class="text-primary">Participants:</h5>
+                                <ul class="my-4">
+                                    <?php
+                                    $memberInEvent = $eventManager->getMemberInEvent($eventInfos['eventId']);
+                                    if (isset($memberInEvent)) {
+                                        while ($members = $memberInEvent->fetch()) {
+                                    ?>
+                                            <li> <?= $members['nom'] . " " . $members['prenom']; ?> </li>
+                                    <?php
+                                        }
+                                    }
+                                    ?>
+                                </ul>
+                                <input type="hidden" name="eventId" value="<?= $eventInfos['eventId']; ?>">
+                                <button type="submit" name="deleteEvent" class="btn btn-danger">Supprimer</button>
+                            </div>
+                        </form>
+                <?php
+                    }
+                }
+                ?>
+            </div>
         </div>
     </div>
 </section>

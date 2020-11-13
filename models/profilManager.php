@@ -26,7 +26,7 @@ class ProfilManager
         }
         else
         {
-            $this->password = $_SESSION['password'];
+            $this->password = $this->currentPassword($mail);
         }
         if ($picture != "")
         {
@@ -37,6 +37,18 @@ class ProfilManager
             $this->picture = $_SESSION['picture'];
         }
     }
+
+    public function currentPassword($mail)
+    {
+        $memberManager = new MembersManager();
+        $infosMember = $memberManager->infosMember($mail);
+        while ($member = $infosMember->fetch())
+        {
+            $password = $member['password'];
+        }
+        return $password;
+    }
+
     public function checkPassword($password)
     {
         $passwordRules = '#([a-zA-Z0-9]+){8}#';

@@ -12,11 +12,11 @@ ob_start();
         <div class="container">
             <input type="hidden" id="memberId" value="<?= $_SESSION['id']; ?>">
 
-            <!-- formulaire creation evenement -->
+            <!-- formulaire CREATION evenement -->
             <div class="row" id="divCreateEvent">
                 <form>
                     <div class="form-group">
-                        <h1>Création d'un evenement :</h1>
+                        <h1 class="my-3 text-center text-uppercase text-info">Création d'un evenement :</h1>
                         <fieldset>
                             <legend>Evenement :</legend>
                             <input type="hidden" id="eventCreator" value="<?= $_SESSION['id']; ?>">
@@ -44,9 +44,9 @@ ob_start();
                 </form>
             </div>
 
-            <!-- fenetre qui s affiche uniquement apres clique sur un evenement -->
+            <!-- fenetre qui s affiche uniquement apres CLIQUE sur un evenement -->
             <div id="infosEvent" class="mb-3">
-                <h1><span id="infosEventTitle"></span></h1>
+                <h1 class="my-3 text-center text-uppercase text-info"><span id="infosEventTitle"></span></h1>
                 <h3>Organisateur:</h3>
                 <p><span id="infosEventCreator"></span></p>
                 <h3>Desctiption:</h3>
@@ -67,9 +67,9 @@ ob_start();
             </div>
 
 
-            <!-- Partie Agenda + bouton ajout evenement -->
+            <!-- Partie AGENDA + BOUTON ajout evenement -->
             <div class="container-fluid mt-3" id="divAgenda">
-                <h1 class="text-center text-uppercase">Mon agenda</h1>
+                <h1 class="my-3 text-center text-uppercase text-info">Mon agenda</h1>
                 <div class="row">
                     <!-- bouton ajouter evenement -->
                     <button type="button" class="btn btn-success p-2" title="Ajouter un evenement" id="btnAddEvent" name="btnAddEvent">
@@ -77,7 +77,7 @@ ob_start();
                     </button>
                 </div>
 
-                <div class="row mt-4 mb-3" id="calendar"></div>
+                <div class="row mt-2 mb-5 mb-3" id="calendar"></div>
             </div>
         </div>
     </div>

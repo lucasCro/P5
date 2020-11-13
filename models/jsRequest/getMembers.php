@@ -1,5 +1,5 @@
 <?php
-require_once('connexionManager.php');
+require_once('../connexionManager.php');
 
 $eventId = $_GET['eventId'];
 
@@ -10,5 +10,5 @@ $request = $db->prepare('SELECT * FROM member INNER JOIN jointable ON jointable.
 $request->execute(array(
     'eventId' => $eventId
 ));
-$result = $request->fetchAll(PDO::FETCH_ASSOC)  ;
+$result = $request->fetchAll(PDO::FETCH_ASSOC);
 echo json_encode($result);

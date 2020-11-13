@@ -13,14 +13,14 @@ ob_start();
         <div class="container">
             <form method="POST" enctype="multipart/form-data">
                 <div class="card d-flex flex-row my-3">
-                    <div class="card-top col-4">
+                    <div class="card-header col-4">
                         <img class="card-img-top mb-2" src="<?= $_SESSION['picture']; ?>" alt="photo de profil">
                         <input type="file" name="picture" class="m-1" />
                         <button type="submit" class="btn btn-primary" name="btnChangePicture">Valider</button>
                     </div>
                     <div class="card-body pt-0 col-7">
                         <div class="group-form my-5">
-                            <h1>Mon profil</h1>
+                            <h1 class="text-info text-center text-uppercase">Mon profil</h1>
                             <label for="pseudo">Mon pseudo :</label>
                             <input type="text" class="form-control" value="<?= $_SESSION['pseudo']; ?>" id="pseudo" name="pseudo">
                             <label for="prenom">Mon prénom :</label>

@@ -1,5 +1,5 @@
 <?php
-require_once('connexionManager.php');
+require_once('../connexionManager.php');
 
 // Verification que toutes les données requises sont presentes
 if ( isset($_POST['eventName']) && isset($_POST['eventLocalisation']) && isset($_POST['eventStart']) 

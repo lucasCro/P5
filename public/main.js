@@ -6,16 +6,14 @@ $(document).ready(function () {
         $('#imgBtnClose').toggle();
         $('#imgBtnOpen').toggle();
         // Deverouille le champs mot de passe
-        if ($('#imgBtnOpen').css('display') != 'none')
-        {
+        if ($('#imgBtnOpen').css('display') != 'none') {
             $('#passwordInput').removeAttr('readonly');
         }
-        else
-        {
+        else {
             $('#passwordInput').attr('readonly', 'true');
         }
         $('#div_btnChangePassword').toggle();
-    })
+    });
     
 // INTERACTION PAGE AGENDA
     
@@ -24,25 +22,24 @@ $(document).ready(function () {
     calendar.makeCalendar();
     
     // CREATION EVENEMENT :
-    // Bouton Ajout evenement (sur la page agenda, pour faire apparaitre le formulaire)
+    // Bouton Ajout evenement: affiche le formulaire de création d'un evenement
     $('#btnAddEvent').on('click', function () {
         $('#divCreateEvent').css('display', 'flex');
-        let calendar = new Calendar();
+        // Va chercher dans la BDD les membres du site pour créé une liste de checkbox a coché
         let allMembers = calendar.getAllMembers();
         for (let member of allMembers) {
             $('#div_memberInEvent').append('<div class="row mb-1"><label for="eventMember' + member.id + '" class="form-check-label col-4">' + member.nom + ' ' + member.prenom + '</label><input type="checkbox" class="form-check-input col-4" id="eventMember' + member.id + '" name="' + member.id + '" value="' + member.id + '"></div>')
         }
         $('#divAgenda').css('display', 'none');
-    })
+    });
     
-    // Bouton confirmation de la creation evenement ("Envoyer" dans le formulaire de creation)
+    // Bouton envoyé (dans le formulaire de création d'evenement): créée un evenement dans la BDD et actualise l'agenda
     $('#btnCreatEvent').on('click', function () {
-        let calendar = new Calendar();
         calendar.creatEvent();
+        $('#div_memberInEvent').empty();
         $('#divCreateEvent').css('display', 'none');
-        let updateCalendar = new Calendar();
-        updateCalendar.makeCalendar();
         $('#divAgenda').css('display', 'flex');
+        calendar.makeCalendar();      
     });
 
     // Boutons "retour" pour quitter le formulaire de creation d evenement et le formulaire d informations sur un evenement
@@ -52,33 +49,24 @@ $(document).ready(function () {
         $('#div_memberInEvent').empty();
         $('#infosEvent').css('display', 'none');
         $('#divCreateEvent').css('display', 'none');
-    })
+    });
 
     // SUPPRESSION EVENEMENT
     // Bouton Confirmation suppression evenement
     $('.deleteEvent').on('click', function () {
-        let calendar = new Calendar();
         calendar.deleteEvent();
         $('#infosEvent').css('display', 'none');
-        let updateCalendar = new Calendar();
-        updateCalendar.makeCalendar();
-        $('#divAgenda').css('display', 'flex');    
-    })
+        $('#divAgenda').css('display', 'flex');
+        calendar.makeCalendar();      
+    });
 
     // Bouton supprimer, ouvre la div pour confirmer ou non la suppression
     $('#btnDeleteEvents').on('click', function () {
         $('#confirmation').toggle();
-    })
+    });
 
     // Bouton retour dans la div de confirmation de suppression d evenement, pour masquer la div et revenir au formulaire d information de l'evenement
     $('#back').on('click', function () {
         $('#confirmation').css('display', 'none');
-    })
-
-    // Bouton pour effectué des tests (partie prod', a supprimer)
-    $('#btnTest').on('click', function () {
-        let calendar = new Calendar();
-        calendar.getAllMembers();
-    })
-
+    });
 });

@@ -6,7 +6,7 @@ class ConnexionManager
     {
         try 
         {
-            $dbb = new PDO('mysql:host=localhost;dbname=tribaous', 'root', '', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+            $dbb = new PDO('mysql:host=localhost;dbname=alagauda', 'root', '', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
             $dbb->exec("SET CHARACTER SET utf8");
             return $dbb;
         } 

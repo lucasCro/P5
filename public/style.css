@@ -1,7 +1,17 @@
-body {
+body 
+{
     padding-top: 56px;
 }
-
+a
+{
+    cursor: pointer;
+}
+footer
+{
+    position: fixed;
+    bottom: 0;
+    z-index: 74;
+}
 /* Message Alert */
 #alertMessage 
 {
@@ -32,12 +42,10 @@ body {
 
 #homeContent
 {
+    width: 500px;
     position: absolute;
-    top: 30%;
-}
-#homeContent h1
-{
-    font-size: 52px;
+    top: 20%;
+    right: calc(50% - 250px);
 }
 
 /* Agenda */

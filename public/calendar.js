@@ -2,6 +2,12 @@ class Calendar {
 
     constructor ()
     {
+        
+    }
+
+    // Creation du calendrier
+    makeCalendar ()
+    {
         this.events = this.getEvent();
         this.calendarEl = document.getElementById('calendar');
         this.calendar = new FullCalendar.Calendar(this.calendarEl, {
@@ -24,26 +30,30 @@ class Calendar {
             events: this.events,
             eventDisplay: 'block',
             eventClick: (infos) => {
-                $('#infosEvent').toggle(),
-                $('#divAgenda').toggle(),
-                $('#infosEventTitle').text(infos.event.title),
-                $('#infosEventCreator').text(infos.event.extendedProps.creator),
-                $('#infosEventDescription').text(infos.event.extendedProps.description),
-                $('#infosEventLocalisation').text(infos.event.extendedProps.localisation),
+                // Affichage/masquage de l'agenda et du formulaire d'information sur l evenement
+                $('#infosEvent').toggle();
+                $('#divAgenda').toggle();
+                // Recuperation du nom et prenom de l organisateur de l'evenement
+                let memberInEvent = this.getMembersInEvent(infos.event.id);
+                let creator;
+                for (let member of memberInEvent) {
+                    if (member.id == infos.event.extendedProps.creator) {
+                        creator = member.nom + ' ' + member.prenom;
+                    }
+                }
+                // Remplissage des informations du formulaire
+                $('#infosEventTitle').text(infos.event.title);
+                $('#infosEventCreator').text(creator);
+                $('#infosEventDescription').text(infos.event.extendedProps.description);
+                $('#infosEventLocalisation').text(infos.event.extendedProps.localisation);
                 $('#infosEventId').val(infos.event.id);
-                
-                let memberList = this.getMembersInEvent(infos.event.id)
-                for (let member of memberList)
-                {
-                    $('#infosEventMembers').append('<li>'+member.nom + ' ' + member.prenom+'</li>');
+                // Recuperation des participants
+                let memberList = this.getMembersInEvent(infos.event.id);
+                for (let member of memberList) {
+                    $('#infosEventMembers').append('<li>' + member.nom + ' ' + member.prenom + '</li>');
                 }
             }
         });
-    }
-
-    // Creation du calendrier
-    makeCalendar ()
-    {
         this.calendar.render();
     }
 
@@ -52,20 +62,19 @@ class Calendar {
     {
         // Tableau des membres participants
         let members = [];
-        // Recuperation des bouton radio checked
-        $('input:checked').each(function ()
-        {
+        // Recuperation des boutons radio checked (correspondant aux membres participants)
+        $('input:checked').each(function () {
             let name = $(this).val();
             members.push(name);
-        }
-        )
+        });
         members.push($('#eventCreator').val());
         // Debut et Fin de l'evenement au format DATETIME
         let beginning = $('#eventStart').val() + " " + $('#eventStartTime').val();
         let end = $('#eventEnd').val() + " " + $('#eventEndTime').val();
         // Envoi des données en AJAX
+        $.ajaxSetup({async: false});
         $.post(
-            '/models/creatEvent.php',
+            '/models/jsRequest/creatEvent.php',
             {
                 eventName: $('#eventName').val(),
                 eventLocalisation: $('#eventLocalisation').val(),
@@ -76,6 +85,14 @@ class Calendar {
                 eventCreator: $('#eventCreator').val()
             }
         );
+        $('#eventName').val(null);
+        $('#eventLocalisation').val(null);
+        $('#eventStart').val(null);
+        $('#eventStartTime').val(null);
+        $('#eventEnd').val(null);
+        $('#eventEndTime').val(null);
+        $('#eventDescription').val(null);
+        $('#eventCreator').val(null);
     }
 
     // Recuperation des evenements depuis la BDD 
@@ -86,7 +103,7 @@ class Calendar {
         $.ajaxSetup({ async: false });
         $.get(
             // 
-            '/models/getEvent.php?memberId='+memberId,
+            '/models/jsRequest/getEvent.php?memberId=' + memberId,
             'true',
             function (data)
             {
@@ -109,7 +126,6 @@ class Calendar {
                             "localisation": event.eventLocalisation,
                             "description": event.eventDescription,
                             "creator": event.eventCreator
-
                         });
                     }
                     result = eventList;
@@ -125,7 +141,7 @@ class Calendar {
         let eventId = event_id;
         let memberList = [];
         $.get(
-            '/models/getMembers.php?eventId=' + eventId,
+            '/models/jsRequest/getMembers.php?eventId=' + eventId,
             true,
             function (data) {
                 for (let member of data)
@@ -134,7 +150,7 @@ class Calendar {
                         "nom": member.nom,
                         "prenom": member.prenom,
                         "pseudo": member.pseudo,
-                        "id": member.id
+                        "id": member.member_id
                     })  
                 }            
             },
@@ -147,7 +163,7 @@ class Calendar {
     {
         let allMembers = [];
         $.get(
-            '/models/getAllMembers.php',
+            '/models/jsRequest/getAllMembers.php',
             false,
             function (data) {
                 for (let member of data) {
@@ -170,7 +186,7 @@ class Calendar {
     deleteEvent()
     {
         $.post(
-            'models/deleteEvent.php',
+            'models/jsRequest/deleteEvent.php',
             {
                 eventId: $('#infosEventId').val()
             }
@@ -185,7 +201,7 @@ class Calendar {
             async: false
         });
         $.get(
-                '/models/getEvent.php?memberId=' + memberId,
+                '/models/jsRequest/getEvent.php?memberId=' + memberId,
                 'true',
             function (data) {
                 console.log(data);

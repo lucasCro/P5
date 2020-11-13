@@ -10,6 +10,7 @@ class Controller
         require_once('models/connexionManager.php');
         require_once('models/membersManager.php');
         require_once('models/profilManager.php');
+        require_once('models/eventManager.php');
     }
     
     // Fonction privé pour verifié les logs d'un utilisateur
@@ -281,6 +282,23 @@ class Controller
                 {
                     $alert = "L'image est trop lourde";
                 }
+            }
+            // Apres appuie sur bouton "gestion des evenements"
+            elseif(isset($_POST['btnEventManager']))
+            {
+                $eventManager = new EventManager();
+                $event = $eventManager->getEvents();
+                require_once('view/administrateur.php');
+                require_once('view/template.php');
+            }
+            // Bouton Suppression d'un evenement
+            elseif(isset($_POST['deleteEvent']) && isset($_POST['eventId']))
+            {
+                $eventId = $_POST['eventId'];
+                $eventManager = new EventManager();
+                $eventManager->deleteEvent($eventId);
+                require_once('view/administrateur.php');
+                require_once('view/template.php');
             }
             // Si aucun envoi de formulaire
             else

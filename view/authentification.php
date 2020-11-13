@@ -16,7 +16,7 @@ ob_start();
                 <div class="col-4 bg-light p-5 rounded align-items-end">
                     <form method="POST">
                         <div class="form-group">
-                            <h2 class="mb-3">Authentification</h2>
+                            <h2 class="mb-3 text-info text-center text-uppercase">Authentification</h2>
                             <input type="email" name="mail" class="form-control mb-1" placeholder="Entrez votre mail">
                             <input type="password" name="password" class="form-control mb-1" placeholder="Entrez votre mot de passe">
                             <input type="hidden" name="authentification">
@@ -28,7 +28,7 @@ ob_start();
                 <div class="col-4 bg-light p-5 rounded">
                     <form method="POST">
                         <div class="form-group">
-                            <h2 class="mb-3">Pas encore inscrit ?</h2>
+                            <h2 class="mb-3 text-info text-center text-uppercase">Inscription</h2>
                             <input type=" text" name="newPseudo" class="form-control mb-1" placeholder="Entrez votre pseudo">
                             <input type="text" name="prenom" class="form-control mb-1" placeholder="Entrez votre prénom">
                             <input type="text" name="nom" class="form-control mb-1" placeholder="Entrez votre nom">

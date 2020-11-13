@@ -1,5 +1,5 @@
 <?php
-require_once('connexionManager.php');
+require_once('../connexionManager.php');
 
 // Connection a la BDD
 $dbConnection = new ConnexionManager();
