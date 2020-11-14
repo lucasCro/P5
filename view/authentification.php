@@ -7,7 +7,7 @@ ob_start();
 ?>
 <!-- HTML -->
 <!-- AUTHENTIFICATION -->
-<section id="Authentification">
+<section id="Authentification" >
     <img src="public/images/slider.jpg" class="img-fluid" alt="photo d'une montagne">
     <div class="container-fluid" id="authentificationContent">
         <div class="container">

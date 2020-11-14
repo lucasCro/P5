@@ -52,6 +52,21 @@ class Calendar {
                 for (let member of memberList) {
                     $('#infosEventMembers').append('<li>' + member.nom + ' ' + member.prenom + '</li>');
                 }
+                // Recuperation de la participation a l evenement
+                let participationAnswer = this.getParticipation(infos.event.id, $('#memberId ').val());
+                let answer;
+                if (participationAnswer == "yes") {
+                    answer = "Je participe !"
+                }
+                else if (participationAnswer == "no") {
+                    answer = "Je ne participe pas"
+                }
+                else if (participationAnswer == "maybe") {
+                    answer = "Je ne sais pas"
+                } else {
+                    answer = "Vous n'avez pas encore répondu"
+                }
+                $('#participation-answer').text(answer);
             }
         });
         this.calendar.render();
@@ -193,19 +208,31 @@ class Calendar {
         )
     }
 
-    getTest()
+    setParticipation(participation)
     {
-        let memberId = $('#memberId').val();
-        let result;
-        $.ajaxSetup({
-            async: false
-        });
-        $.get(
-                '/models/jsRequest/getEvent.php?memberId=' + memberId,
-                'true',
-            function (data) {
-                console.log(data);
+        $.post(
+            '/models/jsRequest/setParticipation.php',
+            {
+                participation: participation,
+                eventId: $('#infosEventId').val(),
+                memberId: $('#memberId').val()
             }
         )
+    }
+
+    getParticipation(eventId, memberId) {
+        let answer;
+        $.get(
+            '/models/jsRequest/getParticipation.php?eventId=' + eventId + '&memberId=' + memberId,
+            true,
+            function (data) {
+                for (let tab of data) {
+                    answer = tab.participation;
+                console.log(answer);
+                }  
+            },
+            'JSON'
+        )
+        return answer
     }
 }

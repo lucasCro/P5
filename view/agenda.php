@@ -44,9 +44,9 @@ ob_start();
                 </form>
             </div>
 
-            <!-- fenetre qui s affiche uniquement apres CLIQUE sur un evenement -->
-            <div id="infosEvent" class="mb-3">
-                <h1 class="my-3 text-center text-uppercase text-info"><span id="infosEventTitle"></span></h1>
+            <!-- fenetre INFORMATIONS qui s affiche uniquement apres clique sur un evenement -->
+            <div id="infosEvent" class="mb-3 bg-light p-3 rounded align-items-center">
+                <h1 class="my-3 text-info"><span id="infosEventTitle"></span></h1>
                 <h3>Organisateur:</h3>
                 <p><span id="infosEventCreator"></span></p>
                 <h3>Desctiption:</h3>
@@ -54,7 +54,7 @@ ob_start();
                 <h3>Lieu:</h3>
                 <p><span id="infosEventLocalisation"></span></p>
                 <h3>Participants:</h3>
-                <ul id="infosEventMembers" class="my-4">
+                <ul id="infosEventMembers" class="mb-4 mt-2">
                 </ul>
                 <input type="hidden" id="infosEventId">
                 <button type="button" class="btn btn-primary backToCalendar">Retour a l'agenda !</button>
@@ -63,6 +63,13 @@ ob_start();
                     <p>Es tu sur de vouloir supprimer l'evenement ?</p>
                     <button type="button" class="btn btn-primary" id="back">Retour</button>
                     <button type="button" class="btn btn-warning deleteEvent">Oui</button>
+                </div>
+                <div class="mt-2">
+                    <h5 class="text-dark">Votre réponse actuel:</h5>
+                    <p><span id="participation-answer"></span></p>
+                    <button type="button" class="btn btn-light btn-participation" value="yes">Je participe</button>
+                    <button type="button" class="btn btn-light btn-participation" value="no">Pas disponible</button>
+                    <button type="button" class="btn btn-light btn-participation" value="maybe">Ne sais pas encore</button>
                 </div>
             </div>
 

@@ -69,4 +69,13 @@ $(document).ready(function () {
     $('#back').on('click', function () {
         $('#confirmation').css('display', 'none');
     });
+
+    // PARTICIPATION EVENEMENT
+    // Bouton participation a l'evenement
+    $('.btn-participation').on('click', function () {
+        let participation = $(this).val();
+        calendar.setParticipation(participation);
+        alert('Votre choix a bien été pris en compte !');
+    });
+
 });
