@@ -43,7 +43,9 @@
     ?>
 
     <!-- appel de la variable body, changeante en fonction de la page appelée -->
-    <?= $body; ?>
+    <section id="bodyContent" class="container-fluid bg-light mx-auto my-auto">
+        <?= $body; ?>
+    </section>
 
     <!-- appel du footer -->
     <?php require_once('footer.php'); ?>

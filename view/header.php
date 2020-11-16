@@ -1,10 +1,9 @@
 <!-- header -->
 <header>
-    <div class="container-fluid bg-info fixed-top">
+    <div class="container-fluid fixed-top bg-dark">
         <div class="container">
-            <div class="row">
                 <!-- nav bar en responsive -->
-                <nav class="col navbar navbar-dark navbar-expand-lg">
+                <nav class="container-fluid navbar navbar-dark navbar-expand-lg">
                     <a class="navbar-brand" href="index.php">ALaGauda</a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent">
                         <span class="navbar-toggler-icon"></span>
@@ -25,9 +24,7 @@
                         </div>
 
                     <?php } ?>
-
                 </nav>
-            </div>
         </div>
     </div>
 </header>

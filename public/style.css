@@ -1,17 +1,28 @@
+html {
+    margin: 0px;
+    height: 100%;
+    width: 100%;
+}
+
+body,
+#bodyContent,
+#divAccueil, #divPhoto, #divProfil {
+    margin: 0px;
+    padding: 0px;
+    min-height: 900px;
+    width: 100%;
+}
+
 body 
 {
     padding-top: 56px;
 }
+
 a
 {
     cursor: pointer;
 }
-footer
-{
-    position: fixed;
-    bottom: 0;
-    z-index: 74;
-}
+
 /* Message Alert */
 #alertMessage 
 {
@@ -20,32 +31,6 @@ footer
     top: 60px;
     right: calc(50% - 250px);
     z-index: 77;
-}
-
-/* authentification */
-#authentification
-{
-    position: relative;
-}
-
-#authentificationContent
-{
-    position: absolute;
-    top: 30%;
-}
-
-/* home */
-#home
-{
-    position: relative;
-}
-
-#homeContent
-{
-    width: 500px;
-    position: absolute;
-    top: 20%;
-    right: calc(50% - 250px);
 }
 
 /* Agenda */

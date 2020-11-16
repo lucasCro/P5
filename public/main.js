@@ -76,6 +76,8 @@ $(document).ready(function () {
         let participation = $(this).val();
         calendar.setParticipation(participation);
         alert('Votre choix a bien été pris en compte !');
+        $('#participation-answer').text($(this).val());
+
     });
 
 });

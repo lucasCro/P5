@@ -9,13 +9,10 @@ ob_start();
 
 <!-- HTML -->
 <!-- ACCUEIL -->
-<section id="home" class="justify-content-center">
-    <div id="homeContent" class="container-fluid bg-light rounded p-5">
-        <h1 class="text-info">Bienvenue sur Tri Baous <?= $_SESSION['prenom']; ?> !</h1>
-        <p>Ici tu pourras consulter ton agenda pour savoir ce qu'il y a de prévu, partager des photos et consulter ton profil !</p>
-    </div>
-    <img src="public/images/sliderHome.jpg" class="img-fluid" alt="photo d'une montagne">
-</section>
+<div id="divAccueil" class="container mx-auto my-auto bg-light rounded p-5">
+    <h1 class="text-primary">Bienvenue sur ALaGauda <?= $_SESSION['prenom']; ?> !</h1>
+    <p class="lead font-weight-normal text-dark">Ici tu pourras consulter ton agenda pour savoir ce qu'il y a de prévu, créé des evenements et consulter ton profil !</p>
+</div>
 
 <!-- PHP -->
 <?php

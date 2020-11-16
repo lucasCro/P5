@@ -8,6 +8,9 @@ class Calendar {
     // Creation du calendrier
     makeCalendar ()
     {
+        // Mettre du responsive et passer en monde liste sur un ecran mobile
+        let width = $(window).width();
+        console.log(width);
         this.events = this.getEvent();
         this.calendarEl = document.getElementById('calendar');
         this.calendar = new FullCalendar.Calendar(this.calendarEl, {
@@ -16,7 +19,7 @@ class Calendar {
             initialView: 'dayGridMonth',
             schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
             headerToolbar: {
-                left: 'prev,next today',
+                left: 'prev,next',
                 center: 'title',
                 right: 'dayGridMonth,dayGridWeek,listMonth'
             },
@@ -50,22 +53,10 @@ class Calendar {
                 // Recuperation des participants
                 let memberList = this.getMembersInEvent(infos.event.id);
                 for (let member of memberList) {
-                    $('#infosEventMembers').append('<li>' + member.nom + ' ' + member.prenom + '</li>');
+                    $('#infosEventMembers').append('<li>' + member.nom + ' ' + member.prenom + ', <span class="font-italic">Participe : '+member.participation +'</span></li>');
                 }
                 // Recuperation de la participation a l evenement
-                let participationAnswer = this.getParticipation(infos.event.id, $('#memberId ').val());
-                let answer;
-                if (participationAnswer == "yes") {
-                    answer = "Je participe !"
-                }
-                else if (participationAnswer == "no") {
-                    answer = "Je ne participe pas"
-                }
-                else if (participationAnswer == "maybe") {
-                    answer = "Je ne sais pas"
-                } else {
-                    answer = "Vous n'avez pas encore répondu"
-                }
+                let answer = this.getParticipation(infos.event.id, $('#memberId ').val());
                 $('#participation-answer').text(answer);
             }
         });
@@ -165,7 +156,8 @@ class Calendar {
                         "nom": member.nom,
                         "prenom": member.prenom,
                         "pseudo": member.pseudo,
-                        "id": member.member_id
+                        "id": member.member_id,
+                        "participation" : member.participation
                     })  
                 }            
             },

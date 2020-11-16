@@ -1,5 +1,5 @@
 <!-- footer -->
-<footer class="container-fluid bg-info mt-5">
+<footer class="container-fluid bg-info">
     <div class="container">
         <div class="row">
             <div class="col text-center py-auto px-auto">
