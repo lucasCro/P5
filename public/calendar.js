@@ -8,9 +8,6 @@ class Calendar {
     // Creation du calendrier
     makeCalendar ()
     {
-        // Mettre du responsive et passer en monde liste sur un ecran mobile
-        let width = $(window).width();
-        console.log(width);
         this.events = this.getEvent();
         this.calendarEl = document.getElementById('calendar');
         this.calendar = new FullCalendar.Calendar(this.calendarEl, {
