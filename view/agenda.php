@@ -13,7 +13,7 @@ ob_start();
     <!-- formulaire CREATION evenement -->
     <div class="row" id="divCreateEvent">
         <form>
-            <div class="form-group">
+            <div class="form-group container">
                 <h1 class="my-3 text-center text-sm-normal text-md-uppercase text-info">Création d'un evenement :</h1>
                 <fieldset>
                     <legend>Evenement :</legend>
@@ -36,8 +36,8 @@ ob_start();
                     <div class="container" id="div_memberInEvent">
                     </div>
                 </fieldset>
-                <button type="button" class="btn btn-primary backToCalendar">Retour</button>
-                <button type="button" class="btn btn-success" id="btnCreatEvent">Envoyer</button>
+                <button type="button" class="btn btn-primary backToCalendar col-sm-12 col-lg-0 my-1">Retour</button>
+                <button type="button" class="btn btn-success col-sm-12 col-lg-0 my-1" id="btnCreatEvent">Envoyer</button>
             </div>
         </form>
     </div>

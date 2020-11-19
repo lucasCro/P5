@@ -9,7 +9,7 @@ body,
 #divAccueil, #divPhoto, #divProfil {
     margin: 0px;
     padding: 0px;
-    min-height: 900px;
+    min-height: 1200px;
     width: 100%;
 }
 
@@ -22,7 +22,10 @@ a
 {
     cursor: pointer;
 }
-
+.form-check-input
+{
+    position: inherit
+}
 /* Message Alert */
 #alertMessage 
 {
@@ -66,4 +69,13 @@ a
 #div_btnChangePassword
 {
     display: none;
+}
+
+@media screen and (max-width: 600px)
+{
+    #calendar
+    {
+        height: 600px;
+        overflow: scroll;
+    }
 }

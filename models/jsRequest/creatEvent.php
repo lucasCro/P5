@@ -37,7 +37,7 @@ if ( isset($_POST['eventName']) && isset($_POST['eventLocalisation']) && isset($
         $dbConnection = new ConnexionManager();
         $db = $dbConnection->dbConnection();
         // Requete d'insertion
-        $insertRequest = $db->prepare('INSERT INTO jointable(event_id, member_id) VALUES(:event_id, :member_id)');
+        $insertRequest = $db->prepare('INSERT INTO jointable(event_id, member_id, participation) VALUES(:event_id, :member_id, "Pas de reponse")');
         $insertRequest->execute(array(
             'event_id' => $eventId,
             'member_id' => $member 

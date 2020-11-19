@@ -70,7 +70,7 @@ class Calendar {
             let name = $(this).val();
             members.push(name);
         });
-        members.push($('#eventCreator').val());
+        members.push($('#memberId').val());
         // Debut et Fin de l'evenement au format DATETIME
         let beginning = $('#eventStart').val() + " " + $('#eventStartTime').val();
         let end = $('#eventEnd').val() + " " + $('#eventEndTime').val();
@@ -85,7 +85,7 @@ class Calendar {
                 eventEnd: end,
                 eventDescription: $('#eventDescription').val(),
                 eventMember: members,
-                eventCreator: $('#eventCreator').val()
+                eventCreator: $('#memberId').val()
             }
         );
         $('#eventName').val(null);
@@ -95,7 +95,6 @@ class Calendar {
         $('#eventEnd').val(null);
         $('#eventEndTime').val(null);
         $('#eventDescription').val(null);
-        $('#eventCreator').val(null);
     }
 
     // Recuperation des evenements depuis la BDD 

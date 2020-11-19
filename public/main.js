@@ -28,7 +28,7 @@ $(document).ready(function () {
         // Va chercher dans la BDD les membres du site pour créé une liste de checkbox a coché
         let allMembers = calendar.getAllMembers();
         for (let member of allMembers) {
-            $('#div_memberInEvent').append('<div class="row mb-1"><label for="eventMember' + member.id + '" class="form-check-label col-4">' + member.nom + ' ' + member.prenom + '</label><input type="checkbox" class="form-check-input col-4" id="eventMember' + member.id + '" name="' + member.id + '" value="' + member.id + '"></div>')
+            $('#div_memberInEvent').append('<div class="row mb-1"><label for="eventMember' + member.id + '" class="form-check-label col-8">' + member.nom + ' ' + member.prenom + '</label><input type="checkbox" class="form-check-input col-3" id="eventMember' + member.id + '" name="' + member.id + '" value="' + member.id + '"></div>')
         }
         $('#divAgenda').css('display', 'none');
     });

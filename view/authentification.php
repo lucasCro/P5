@@ -7,9 +7,9 @@ ob_start();
 ?>
 <!-- HTML -->
 <!-- AUTHENTIFICATION -->
-<div class="container d-flex-lg flex-column-sm justify-content-center text-sm-normal" id="divAuthentification">
+<div class="container row justify-content-center mx-auto my-auto text-sm-normal" id="divAuthentification">
     <!-- formulaire d'authentification -->
-    <div class="col-lg-4 bg-white p-sm-3 p-lg-5 m-1 rounded">
+    <div class="col-12 col-md-4 bg-white p-sm-3 p-lg-5 m-1 rounded">
         <form method="POST">
             <div class="form-group">
                 <h2 class="mb-3 text-info text-center text-uppercase-lg ">Authentification</h2>
@@ -21,7 +21,7 @@ ob_start();
         </form>
     </div>
     <!-- formulaire de création de compte -->
-    <div class="col-lg-4 bg-white p-lg-5 p-sm-3 m-1 rounded">
+    <div class="col-12 col-md-4 bg-white p-lg-5 p-sm-3 m-1 rounded">
         <form method="POST">
             <div class="form-group">
                 <h2 class="mb-3 text-info text-center text-uppercase-lg text-sm-normal">Inscription</h2>
