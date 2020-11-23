@@ -51,7 +51,7 @@ class ProfilManager
 
     public function checkPassword($password)
     {
-        $passwordRules = '#([a-zA-Z0-9]+){8}#';
+        $passwordRules = '#[a-z]+[A-Z]+[0-9]+{8,}#';
         if (preg_match($passwordRules, $password))
         {
             return true;
@@ -64,7 +64,7 @@ class ProfilManager
 
     public function checkMail($mail)
     {
-        $mailRules = '#^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-z]{2,4}$#';
+        $mailRules = '#^[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#';
         if (preg_match($mailRules, $mail)) {
             return true;
         } else {

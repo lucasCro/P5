@@ -1,4 +1,5 @@
 <?php
+if (isset($_SESSION['id'])) {
 require_once('../connexionManager.php');
 
 $eventId = strip_tags($_GET['eventId']);
@@ -15,3 +16,4 @@ $participation->execute(array(
     'eventId' => $eventId
 ));
 echo json_encode($participation->fetchAll(PDO::FETCH_ASSOC));
+}

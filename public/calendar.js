@@ -77,7 +77,7 @@ class Calendar {
         // Envoi des données en AJAX
         $.ajaxSetup({async: false});
         $.post(
-            '/models/jsRequest/creatEvent.php',
+            '/alagauda/models/jsRequest/creatEvent.php',
             {
                 eventName: $('#eventName').val(),
                 eventLocalisation: $('#eventLocalisation').val(),
@@ -105,7 +105,7 @@ class Calendar {
         $.ajaxSetup({ async: false });
         $.get(
             // 
-            '/models/jsRequest/getEvent.php?memberId=' + memberId,
+            '/alagauda/models/jsRequest/getEvent.php?memberId=' + memberId,
             'true',
             function (data)
             {
@@ -143,7 +143,7 @@ class Calendar {
         let eventId = event_id;
         let memberList = [];
         $.get(
-            '/models/jsRequest/getMembers.php?eventId=' + eventId,
+            '/alagauda/models/jsRequest/getMembers.php?eventId=' + eventId,
             true,
             function (data) {
                 for (let member of data)
@@ -166,8 +166,8 @@ class Calendar {
     {
         let allMembers = [];
         $.get(
-            '/models/jsRequest/getAllMembers.php',
-            false,
+            '/alagauda/models/jsRequest/getAllMembers.php',
+            true,
             function (data) {
                 for (let member of data) {
                     // Pour ne pas afficher le createur dans la liste
@@ -189,7 +189,7 @@ class Calendar {
     deleteEvent()
     {
         $.post(
-            'models/jsRequest/deleteEvent.php',
+            '/alagauda/models/jsRequest/deleteEvent.php',
             {
                 eventId: $('#infosEventId').val()
             }
@@ -199,7 +199,7 @@ class Calendar {
     setParticipation(participation)
     {
         $.post(
-            '/models/jsRequest/setParticipation.php',
+            '/alagauda/models/jsRequest/setParticipation.php',
             {
                 participation: participation,
                 eventId: $('#infosEventId').val(),
@@ -211,7 +211,7 @@ class Calendar {
     getParticipation(eventId, memberId) {
         let answer;
         $.get(
-            '/models/jsRequest/getParticipation.php?eventId=' + eventId + '&memberId=' + memberId,
+            '/alagauda/models/jsRequest/getParticipation.php?eventId=' + eventId + '&memberId=' + memberId,
             true,
             function (data) {
                 for (let tab of data) {

@@ -1,4 +1,5 @@
 <?php
+if (isset($_SESSION['id'])) {
 require_once('../connexionManager.php');
 
 $participation = strip_tags($_POST['participation']);
@@ -16,3 +17,4 @@ $update->execute(array(
     'memberId' => $memberId,
     'eventId' => $eventId
 ));
+}

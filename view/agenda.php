@@ -22,11 +22,13 @@ ob_start();
                     <input type="text" class="form-control" id="eventName">
                     <label for="eventLocalisation">localisation de l'evenement :</label>
                     <input type="text" class="form-control" id="eventLocalisation">
-                    <label for="eventStart">Debut :</label>
+                    <label for="eventStart">Date de début (format accepté: jj/mm/aaaa):</label>
                     <input type="date" class="form-control" id="eventStart">
+                    <label for="eventStartTime">Heure de début (format accepté: HH:mm):</label>
                     <input type="time" class="form-control" id="eventStartTime">
-                    <label for="eventEnd">Fin :</label>
+                    <label for="eventEnd">Date de Fin (format accepté: jj/mm/aaaa):</label>
                     <input type="date" class="form-control" id="eventEnd">
+                    <label for="eventEndTime">Heure de fin (format accepté: HH:mm):</label>
                     <input type="time" class="form-control" id="eventEndTime">
                     <label for="eventDescription">Description :</label>
                     <textarea class="form-control" id="eventDescription"></textarea>
