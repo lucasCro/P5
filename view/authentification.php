@@ -29,6 +29,7 @@ ob_start();
                 <input type="text" name="prenom" class="form-control mb-1" placeholder="Entrez votre prénom">
                 <input type="text" name="nom" class="form-control mb-1" placeholder="Entrez votre nom">
                 <input type="email" name="mail" class="form-control mb-1" placeholder="Entrez votre adresse mail">
+                <h3>Mot de passe (Il faut 1 majuscule, 1 chiffre et 8 caracteres minimum)</h3>
                 <input type="password" name="newPassword" class="form-control mb-1" placeholder="Entrez votre mot de passe">
                 <input type="password" name="passwordConfirmation" class="form-control mb-1" placeholder="Confirmez votre mot de passe">
                 <input type="hidden" name="inscription">

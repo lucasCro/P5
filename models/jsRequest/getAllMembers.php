@@ -1,5 +1,5 @@
 <?php
-if (isset($_SESSION['id']))
+if (isset($_POST['verification']) && $_POST['verification'] == "valid" )
 {
     require_once('../connexionManager.php');
 
@@ -10,4 +10,8 @@ if (isset($_SESSION['id']))
     $result = $db->query('SELECT * FROM member');
     // Retourne le resultat sous forme d'un tableau $data
     echo json_encode($result->fetchAll(PDO::FETCH_ASSOC));
+}
+else
+{
+    echo "failed to connect";
 }

@@ -31,13 +31,13 @@ ob_start();
             if (isset($memberList)) {
                 while ($member = $memberList->fetch()) {
             ?>
-                    <form method=" POST" enctype="multipart/form-data">
+                    <form method="POST" enctype="multipart/form-data">
                         <div class="card d-flex my-3">
                             <!-- header card  -->
                             <div class="card-header">
                                 <img class="card-img-top col-12 col-md-4 mb-2" src="<?= $member['picture']; ?>" alt="photo de profil">
-                                <label for="btnFile" class="btn btn-primary my-1">Cliquer ici pour choisir une image de profil!</label>
-                                <input type="file" id="btnFile" name="picture" class="d-none" />
+                                <label for="<?= $member['picture']; ?>" class="btn btn-primary my-1">Cliquer ici pour choisir une image de profil!</label>
+                                <input type="file" id="<?= $member['picture']; ?>" name="picture" class="d-none" />
                                 <button type="submit" class="btn btn-success my-1" name="btnChangePicture">Valider</button>
                             </div>
                             <!-- body card -->

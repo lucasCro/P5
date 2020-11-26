@@ -45,6 +45,7 @@ $(document).ready(function () {
     // Boutons "retour" pour quitter le formulaire de creation d evenement et le formulaire d informations sur un evenement
     $('.backToCalendar').on('click', function () {
         $('#divAgenda').css('display', 'flex');
+        calendar.makeCalendar();
         $('#infosEventMembers').empty();
         $('#div_memberInEvent').empty();
         $('#infosEvent').css('display', 'none');

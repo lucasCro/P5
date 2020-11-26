@@ -51,7 +51,7 @@ class ProfilManager
 
     public function checkPassword($password)
     {
-        $passwordRules = '#[a-z]+[A-Z]+[0-9]+{8,}#';
+        $passwordRules = '#^(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$#';
         if (preg_match($passwordRules, $password))
         {
             return true;

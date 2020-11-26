@@ -1,9 +1,9 @@
 <?php
-if (isset($_SESSION['id']))
+if (isset($_POST['verification']) && $_POST['verification'] == "valid" && isset($_POST['eventId']))
 {
     require_once('../connexionManager.php');
 
-    $eventId = $_GET['eventId'];
+    $eventId = $_POST['eventId'];
 
     $connexion = new ConnexionManager();
     $db = $connexion->dbConnection();
@@ -14,4 +14,8 @@ if (isset($_SESSION['id']))
     ));
     $result = $request->fetchAll(PDO::FETCH_ASSOC);
     echo json_encode($result);
+}
+else
+{
+    echo "failed to connect";
 }

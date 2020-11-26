@@ -1,5 +1,5 @@
 <?php
-if (isset($_SESSION['id'])) {
+if (isset($_POST['verification']) && $_POST['verification'] == "valid" && isset($_POST['participation'])) {
 require_once('../connexionManager.php');
 
 $participation = strip_tags($_POST['participation']);
@@ -17,4 +17,8 @@ $update->execute(array(
     'memberId' => $memberId,
     'eventId' => $eventId
 ));
+}
+else
+{
+    echo "failed to connect";
 }

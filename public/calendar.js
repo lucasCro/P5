@@ -100,13 +100,15 @@ class Calendar {
     // Recuperation des evenements depuis la BDD 
     getEvent()
     {
-        let memberId = $('#memberId').val();
         let result;
         $.ajaxSetup({ async: false });
-        $.get(
+        $.post(
             // 
-            '/alagauda/models/jsRequest/getEvent.php?memberId=' + memberId,
-            'true',
+            '/alagauda/models/jsRequest/getEvent.php',
+            {
+                memberId : $('#memberId').val(),
+                verification: "valid"
+            },
             function (data)
             {
                 // si aucun evenement dans la BDD
@@ -140,11 +142,13 @@ class Calendar {
 
     getMembersInEvent(event_id)
     {
-        let eventId = event_id;
         let memberList = [];
-        $.get(
-            '/alagauda/models/jsRequest/getMembers.php?eventId=' + eventId,
-            true,
+        $.post(
+            '/alagauda/models/jsRequest/getMembers.php',
+            {
+                eventId: event_id,
+                verification: "valid"
+            },
             function (data) {
                 for (let member of data)
                 {
@@ -165,9 +169,11 @@ class Calendar {
     getAllMembers()
     {
         let allMembers = [];
-        $.get(
+        $.post(
             '/alagauda/models/jsRequest/getAllMembers.php',
-            true,
+            {
+               verification : "valid"
+            },
             function (data) {
                 for (let member of data) {
                     // Pour ne pas afficher le createur dans la liste
@@ -210,9 +216,13 @@ class Calendar {
 
     getParticipation(eventId, memberId) {
         let answer;
-        $.get(
-            '/alagauda/models/jsRequest/getParticipation.php?eventId=' + eventId + '&memberId=' + memberId,
-            true,
+        $.post(
+            '/alagauda/models/jsRequest/getParticipation.php',
+            {
+                verification: "valid",
+                eventId: eventId,
+                memberId : memberId
+            },
             function (data) {
                 for (let tab of data) {
                     answer = tab.participation;

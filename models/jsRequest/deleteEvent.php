@@ -19,3 +19,7 @@ if (isset($_POST['eventId']))
         'eventId' => $eventId
     ));
 }
+else
+{
+    echo "failed to connect";
+}

@@ -163,7 +163,7 @@ class Controller
                         );
                         $updateMember = new MembersManager();
                         $updateMember->updateMember($profil, $_SESSION['id']);
-                        $_SESSION['picture'] = $picture;
+                        $_SESSION['picture'] = $picture.'?r='.date('mis');
 
                         $alert = "L'envoi a bien été effectué !";
                         require_once('view/profil.php');
@@ -252,7 +252,7 @@ class Controller
                     $infosfichier = pathinfo($_FILES['picture']['name']);
                     $extension_upload = $infosfichier['extension'];
                     $extensions_autorisees = array('jpg', 'jpeg', 'gif', 'png');
-                    $picture = 'public/images/uploads/' . $_SESSION['prenom'] . $_SESSION['nom'] . 'ProfilPicture.' . $extension_upload;
+                    $picture = 'public/images/uploads/' . $_POST['prenom'] . $_POST['nom'] . 'ProfilPicture.' . $extension_upload;
                     if (in_array($extension_upload, $extensions_autorisees)) {
                         // On peut valider le fichier et le stocker définitivement
                         move_uploaded_file($_FILES['picture']['tmp_name'], $picture);
@@ -268,6 +268,7 @@ class Controller
                         );
                         $updateMember = new MembersManager();
                         $updateMember->updateMember($profil, $_POST['id']);
+                        
 
                         $alert = "L'envoi a bien été effectué !";
                         require_once('view/administrateur.php');
@@ -303,6 +304,7 @@ class Controller
             // Si aucun envoi de formulaire
             else
             {
+                $alert ='isset $_FILES["picture"]:'. isset($_FILES['picture']). " ". '$_FILES["picture"]["error"]:' .$_FILES['picture']['error'];
                 require_once('view/administrateur.php');
                 require_once('view/template.php');
             }

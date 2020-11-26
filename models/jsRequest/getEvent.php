@@ -1,5 +1,5 @@
 <?php
-if (isset($_SESSION['id']))
+if (isset($_POST['verification']) && $_POST['verification'] == "valid" && isset($_POST['memberId']))
 {
     require_once('../connexionManager.php');
 
@@ -7,7 +7,7 @@ if (isset($_SESSION['id']))
     $dbConnection = new ConnexionManager();
     $db = $dbConnection->dbConnection();
     // Recuperation de la requete
-    $member = strip_tags($_GET['memberId']);
+    $member = strip_tags($_POST['memberId']);
     $result = $db->prepare('SELECT *
                         FROM events 
                         INNER JOIN jointable 
@@ -22,4 +22,8 @@ if (isset($_SESSION['id']))
         $events = $data;
     }
     echo json_encode($events);
+}
+else
+{
+    echo "failed to connect";
 }

@@ -1,9 +1,9 @@
 <?php
-if (isset($_SESSION['id'])) {
+if (isset($_POST['verification']) && $_POST['verification'] == "valid" && isset($_POST['eventId']) && isset($_POST['memberId'])) {
 require_once('../connexionManager.php');
 
-$eventId = strip_tags($_GET['eventId']);
-$memberId = strip_tags($_GET['memberId']);
+$eventId = strip_tags($_POST['eventId']);
+$memberId = strip_tags($_POST['memberId']);
 
 // Connection a la BDD
 $dbConnection = new ConnexionManager();
@@ -16,4 +16,8 @@ $participation->execute(array(
     'eventId' => $eventId
 ));
 echo json_encode($participation->fetchAll(PDO::FETCH_ASSOC));
+}
+else
+{
+    echo "failed to connect";
 }
