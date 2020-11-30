@@ -231,7 +231,7 @@ class Controller
 
                 $memberUpdate = new MembersManager();
                 $memberUpdate->updateMember($newProfil, $_POST['id']);
-                $alert = 'Profil mis a jour post nom, prenom : '. $_POST['nom']. $_POST['prenom']. $_POST['picture'];
+                $alert = 'Profil mis a jour';
                 require_once('view/administrateur.php');
                 require_once('view/template.php');
             }
