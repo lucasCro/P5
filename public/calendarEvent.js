@@ -1,26 +1,10 @@
 $(document).ready(function () {
 
-// PROFIL
-    // Bouton deverouillage champs Mot de passe:
-    $('#btnLockClose').on('click', function () {
-        $('#imgBtnClose').toggle();
-        $('#imgBtnOpen').toggle();
-        // Deverouille le champs mot de passe
-        if ($('#imgBtnOpen').css('display') != 'none') {
-            $('#passwordInput').removeAttr('readonly');
-        }
-        else {
-            $('#passwordInput').attr('readonly', 'true');
-        }
-        $('#div_btnChangePassword').toggle();
-    });
-    
-// INTERACTION PAGE AGENDA
-    
+    // INTERACTION PAGE AGENDA
     // INITIALISATION AGENDA
     let calendar = new Calendar();
     calendar.makeCalendar();
-    
+
     // CREATION EVENEMENT :
     // Bouton Ajout evenement: affiche le formulaire de création d'un evenement
     $('#btnAddEvent').on('click', function () {
@@ -32,14 +16,14 @@ $(document).ready(function () {
         }
         $('#divAgenda').css('display', 'none');
     });
-    
+
     // Bouton envoyé (dans le formulaire de création d'evenement): créée un evenement dans la BDD et actualise l'agenda
     $('#btnCreatEvent').on('click', function () {
         calendar.creatEvent();
         $('#div_memberInEvent').empty();
         $('#divCreateEvent').css('display', 'none');
         $('#divAgenda').css('display', 'flex');
-        calendar.makeCalendar();      
+        calendar.makeCalendar();
     });
 
     // Boutons "retour" pour quitter le formulaire de creation d evenement et le formulaire d informations sur un evenement
@@ -58,7 +42,7 @@ $(document).ready(function () {
         calendar.deleteEvent();
         $('#infosEvent').css('display', 'none');
         $('#divAgenda').css('display', 'flex');
-        calendar.makeCalendar();      
+        calendar.makeCalendar();
     });
 
     // Bouton supprimer, ouvre la div pour confirmer ou non la suppression
@@ -80,5 +64,5 @@ $(document).ready(function () {
         $('#participation-answer').text($(this).val());
 
     });
-
+    
 });

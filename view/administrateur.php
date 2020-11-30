@@ -36,8 +36,8 @@ ob_start();
                             <!-- header card  -->
                             <div class="card-header">
                                 <img class="card-img-top col-12 col-md-4 mb-2" src="<?= $member['picture']; ?>" alt="photo de profil">
-                                <label for="<?= $member['picture']; ?>" class="btn btn-primary my-1">Cliquer ici pour choisir une image de profil!</label>
-                                <input type="file" id="<?= $member['picture']; ?>" name="picture" class="d-none" />
+                                <label for="input_<?= $member['id']; ?>" class="btn btn-primary my-1">Cliquer ici pour choisir une image de profil!</label>
+                                <input type="file" id="input_<?= $member['id']; ?>" name="picture" class="d-none" value="<?= $member['picture']; ?>" />
                                 <button type="submit" class="btn btn-success my-1" name="btnChangePicture">Valider</button>
                             </div>
                             <!-- body card -->

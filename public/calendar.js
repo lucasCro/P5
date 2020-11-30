@@ -226,7 +226,6 @@ class Calendar {
             function (data) {
                 for (let tab of data) {
                     answer = tab.participation;
-                console.log(answer);
                 }  
             },
             'JSON'

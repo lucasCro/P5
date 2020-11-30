@@ -62,4 +62,16 @@ ob_start();
     <?php
     // fin de la variable body:
     $body = ob_get_clean();
+    // liens JS Calendar
+    ob_start();
+    ?>
+
+    <!-- script javascript API full calendar -->
+    <script src='public/calendar/lib/main.js'></script>
+    <!-- mon js -->
+    <script src='public/calendar.js'></script>
+    <script src='public/profilEvent.js'></script>
+    
+    <?php
+    $footer_js = ob_get_clean();
     ?>

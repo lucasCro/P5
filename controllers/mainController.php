@@ -227,11 +227,11 @@ class Controller
                 // rappel: profil($pseudo, $nom, $prenom, $mail, $password, $statut, $picture)
                 $newProfil = new ProfilManager ($_POST['pseudo'], $_POST['nom'],
                                         $_POST['prenom'], $_POST['mail'],
-                                        $_POST['password'], $_POST['statut'], $_SESSION['picture'] );
+                                        $_POST['password'], $_POST['statut'], $_POST['picture'] );
 
                 $memberUpdate = new MembersManager();
                 $memberUpdate->updateMember($newProfil, $_POST['id']);
-                $alert = "Profil mis a jour";
+                $alert = 'Profil mis a jour post nom, prenom : '. $_POST['nom']. $_POST['prenom']. $_POST['picture'];
                 require_once('view/administrateur.php');
                 require_once('view/template.php');
             }
@@ -304,7 +304,6 @@ class Controller
             // Si aucun envoi de formulaire
             else
             {
-                $alert ='isset $_FILES["picture"]:'. isset($_FILES['picture']). " ". '$_FILES["picture"]["error"]:' .$_FILES['picture']['error'];
                 require_once('view/administrateur.php');
                 require_once('view/template.php');
             }
