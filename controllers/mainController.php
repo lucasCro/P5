@@ -1,5 +1,7 @@
 <?php
 
+namespace alagauda\models;
+
 class Controller 
 {
     private $prefixe = "impossible";
@@ -7,10 +9,11 @@ class Controller
 
     function __construct()
     {
-        require_once('models/connexionManager.php');
-        require_once('models/membersManager.php');
-        require_once('models/profilManager.php');
-        require_once('models/eventManager.php');
+        spl_autoload_register(function ($classe) {
+            $path = str_replace('\\', '/', $classe);
+            $res = explode('models/', $path);
+            require_once 'models/' . $res[1] . '.php';
+        });
     }
     
     // Fonction privé pour verifié les logs d'un utilisateur

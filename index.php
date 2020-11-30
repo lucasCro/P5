@@ -1,4 +1,7 @@
 <?php
+
+namespace alagauda\models;
+
 // Demarrage de session_start pour utiliser les variable de sessions
 session_start();
 

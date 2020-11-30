@@ -1,4 +1,5 @@
 <?php
+namespace alagauda\models;
 
 class MembersManager
 {

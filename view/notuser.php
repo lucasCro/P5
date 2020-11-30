@@ -8,7 +8,7 @@ ob_start();
 
 <div class="container" id="divNotauser">
     <h1 class="my-3 text-center text-uppercase text-info">Il faut s'être identifié pour acceder a cette page ! </h1>
-    <a type="button" class="btn btn-primary" href="index.php">Se connecter</a>
+    <a class="btn btn-primary" href="index.php">Se connecter</a>
 </div>
 
 <!-- PHP -->

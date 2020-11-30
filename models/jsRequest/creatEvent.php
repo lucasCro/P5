@@ -1,5 +1,8 @@
 <?php
-require_once('../connexionManager.php');
+
+use \alagauda\models\ConnexionManager;
+
+require_once('../ConnexionManager.php');
 
 // Verification que toutes les données requises sont presentes
 if ( isset($_POST['eventName']) && isset($_POST['eventLocalisation']) && isset($_POST['eventStart']) 

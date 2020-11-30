@@ -1,7 +1,10 @@
 <?php
+
+use \alagauda\models\ConnexionManager;
+
 if (isset($_POST['verification']) && $_POST['verification'] == "valid" && isset($_POST['eventId']))
 {
-    require_once('../connexionManager.php');
+    require_once('../ConnexionManager.php');
 
     $eventId = $_POST['eventId'];
 

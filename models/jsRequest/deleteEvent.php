@@ -1,7 +1,10 @@
 <?php
+
+use \alagauda\models\ConnexionManager;
+
 if (isset($_POST['eventId']))
 {
-    require_once('../connexionManager.php');
+    require_once('../ConnexionManager.php');
 
     $dbConnection = new ConnexionManager();
     $db = $dbConnection->dbConnection();

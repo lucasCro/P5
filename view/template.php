@@ -26,10 +26,7 @@
     <?php require_once('header.php'); ?>
 
     <!-- fenetre qui apparait uniquement en cas de message -->
-    <?php
-
-    if (isset($alert)) {
-    ?>
+    <?php if (isset($alert)) : ?>
         <div class="container" id="alertMessage">
             <div class="row alert alert-success alert-dismissible fade show" role="alert">
                 <h5 class="alert-heading text-align-center"><?= $alert; ?></h5>
@@ -38,9 +35,7 @@
                 </button>
             </div>
         </div>
-    <?php
-    }
-    ?>
+    <?php endif ; ?>
 
     <!-- appel de la variable body, changeante en fonction de la page appelée -->
     <section id="bodyContent" class="container-fluid bg-light mx-auto my-auto">

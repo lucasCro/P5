@@ -27,10 +27,8 @@ ob_start();
         <!-- div affichage MEMBRE -->
         <div class="container mt-3">
             <!-- récuperation et affichage des informations sur les membres ($memberList créé dans le mainController) -->
-            <?php
-            if (isset($memberList)) {
-                while ($member = $memberList->fetch()) {
-            ?>
+            <?php if (isset($memberList)) : ?>
+                <?php while ($member = $memberList->fetch()) : ?>
                     <form method="POST" enctype="multipart/form-data">
                         <div class="card d-flex my-3">
                             <!-- header card  -->
@@ -66,19 +64,15 @@ ob_start();
                         </div>
                     </form>
                     <!-- fin de la boucle php d'affichage des infos membres -->
-            <?php
-                }
-            }
-            ?>
+                <?php endwhile ; ?>
+            <?php endif ; ?>
         </div>
         <!-- div affichage des EVENEMENTS -->
         <div class="container mt-3">
             <!-- récuperation et affichage des informations sur les evenements ($event et $memberInEvent créé dans le mainController) -->
-            <?php
-            if (isset($event)) {
-                while ($eventInfos = $event->fetch()) {
-                    $creator = $eventManager->getEventCreator($eventInfos['eventId']);
-            ?>
+            <?php if (isset($event)) : ?>
+                <?php while ($eventInfos = $event->fetch()) : ?>
+                    <?php $creator = $eventManager->getEventCreator($eventInfos['eventId']); ?>
                     <form method="POST" class="col-sm-12 col-md-5 bg-white rounded">
                         <div class="form-group">
                             <h2 class="text-info"><?= $eventInfos['eventName']; ?></h2>
@@ -90,25 +84,19 @@ ob_start();
                             <p><?= $eventInfos['eventLocalisation']; ?></p>
                             <h5 class="text-primary">Participants:</h5>
                             <ul class="my-4">
-                                <?php
-                                $memberInEvent = $eventManager->getMemberInEvent($eventInfos['eventId']);
-                                if (isset($memberInEvent)) {
-                                    while ($members = $memberInEvent->fetch()) {
-                                ?>
+                                <?php $memberInEvent = $eventManager->getMemberInEvent($eventInfos['eventId']); ?>
+                                <?php if (isset($memberInEvent)) : ?>
+                                    <?php while ($members = $memberInEvent->fetch()) : ?>
                                         <li> <?= $members['nom'] . " " . $members['prenom']; ?> </li>
-                                <?php
-                                    }
-                                }
-                                ?>
+                                    <?php endwhile ; ?>
+                                <?php endif ; ?>
                             </ul>
                             <input type="hidden" name="eventId" value="<?= $eventInfos['eventId']; ?>">
                             <button type="submit" name="deleteEvent" class="btn btn-danger">Supprimer</button>
                         </div>
                     </form>
-            <?php
-                }
-            }
-            ?>
+                <?php endwhile ; ?>
+            <?php endif; ?>
         </div>
     </div>
 </div>
